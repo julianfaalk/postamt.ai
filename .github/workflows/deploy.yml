@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger deploy
-        run: curl -s https://postamt.ai/deploy.php
+        run: curl -s https://postamt.julianfalk.dev/deploy.php
