@@ -166,194 +166,76 @@
             font-size: 13px;
         }
 
-        /* Platforms */
-        .platforms {
+        /* Platforms - clean row above headline */
+        .platforms-row {
             display: flex;
             justify-content: center;
-            gap: 32px;
-            margin-top: 48px;
-            padding: 32px;
-            background: #fafafa;
-            border-radius: 12px;
-        }
-
-        .platform {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            color: #666;
-            font-size: 12px;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
         }
 
         .platform-icon {
-            width: 52px;
-            height: 52px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 14px;
-            position: relative;
             transition: transform 0.2s ease;
-        }
-
-        .platform:hover .platform-icon {
-            transform: scale(1.08);
-        }
-
-        .platform-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 14px;
-            filter: blur(12px);
-            opacity: 0.5;
-            z-index: 0;
-        }
-
-        .platform-icon svg {
-            width: 26px;
-            height: 26px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Instagram - gradient */
-        .platform.instagram .platform-icon {
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-        }
-        .platform.instagram .platform-icon::before {
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-        }
-        .platform.instagram .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* TikTok - black with accent */
-        .platform.tiktok .platform-icon {
-            background: #000;
-            box-shadow: -2px 0 0 #00f2ea, 2px 0 0 #ff0050;
-        }
-        .platform.tiktok .platform-icon::before {
-            background: linear-gradient(135deg, #00f2ea, #ff0050);
-        }
-        .platform.tiktok .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* YouTube - red */
-        .platform.youtube .platform-icon {
-            background: #FF0000;
-        }
-        .platform.youtube .platform-icon::before {
-            background: #FF0000;
-        }
-        .platform.youtube .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* LinkedIn - blue */
-        .platform.linkedin .platform-icon {
-            background: #0A66C2;
-        }
-        .platform.linkedin .platform-icon::before {
-            background: #0A66C2;
-        }
-        .platform.linkedin .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* X - black */
-        .platform.x .platform-icon {
-            background: #000;
-        }
-        .platform.x .platform-icon::before {
-            background: #000;
-            opacity: 0.3;
-        }
-        .platform.x .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* Bluesky - blue */
-        .platform.bluesky .platform-icon {
-            background: #0085ff;
-        }
-        .platform.bluesky .platform-icon::before {
-            background: #0085ff;
-        }
-        .platform.bluesky .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* Snapchat - yellow */
-        .platform.snapchat .platform-icon {
-            background: #FFFC00;
-        }
-        .platform.snapchat .platform-icon::before {
-            background: #FFFC00;
-        }
-        .platform.snapchat .platform-icon svg {
-            fill: #000;
-        }
-
-        /* WhatsApp - green */
-        .platform.whatsapp .platform-icon {
-            background: #25D366;
-        }
-        .platform.whatsapp .platform-icon::before {
-            background: #25D366;
-        }
-        .platform.whatsapp .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* Telegram - blue */
-        .platform.telegram .platform-icon {
-            background: #0088cc;
-        }
-        .platform.telegram .platform-icon::before {
-            background: #0088cc;
-        }
-        .platform.telegram .platform-icon svg {
-            fill: #fff;
-        }
-
-        /* Butterfly fly-in animation */
-        .platform {
             opacity: 0;
         }
 
-        .platform.flying {
+        .platform-icon:hover {
+            transform: scale(1.15);
+        }
+
+        .platform-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Platform colors - just the SVG fill */
+        .platform-icon.instagram svg { fill: url(#instagram-gradient); }
+        .platform-icon.tiktok svg { fill: #000; }
+        .platform-icon.youtube svg { fill: #FF0000; }
+        .platform-icon.linkedin svg { fill: #0A66C2; }
+        .platform-icon.x svg { fill: #000; }
+        .platform-icon.bluesky svg { fill: #0085ff; }
+        .platform-icon.snapchat svg { fill: #FFFC00; }
+        .platform-icon.whatsapp svg { fill: #25D366; }
+        .platform-icon.telegram svg { fill: #0088cc; }
+
+        /* Butterfly animation */
+        .platform-icon.flying {
             position: fixed;
             z-index: 1000;
             pointer-events: none;
             opacity: 1;
         }
 
-        .platform.flying .platform-icon {
-            animation: flutter 0.3s ease-in-out infinite alternate;
+        .platform-icon.flying svg {
+            animation: flutter 0.15s ease-in-out infinite alternate;
         }
 
         @keyframes flutter {
-            0% { transform: rotate(-8deg) scale(1.1); }
-            100% { transform: rotate(8deg) scale(1.15); }
+            0% { transform: rotate(-12deg) scale(1.1); }
+            100% { transform: rotate(12deg) scale(1.1); }
         }
 
-        .platform.landed {
+        .platform-icon.landed {
             opacity: 1;
-            transition: opacity 0.3s ease;
+            position: relative;
         }
 
-        .platform.landed .platform-icon {
-            animation: landBounce 0.4s ease-out;
+        .platform-icon.landed svg {
+            animation: landBounce 0.3s ease-out forwards;
         }
 
         @keyframes landBounce {
-            0% { transform: scale(1.2); }
-            50% { transform: scale(0.9); }
-            75% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1.3) rotate(0deg); }
+            50% { transform: scale(0.85) rotate(0deg); }
+            75% { transform: scale(1.1) rotate(0deg); }
+            100% { transform: scale(1) rotate(0deg); }
         }
 
         /* Section */
@@ -608,9 +490,18 @@
                 width: 100%;
             }
 
-            .platforms {
-                flex-wrap: wrap;
-                gap: 16px;
+            .platforms-row {
+                gap: 12px;
+            }
+
+            .platform-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .platform-icon svg {
+                width: 24px;
+                height: 24px;
             }
 
             .features {
@@ -698,9 +589,51 @@
         </div>
     </nav>
 
+    <!-- SVG Gradient definitions -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#FFDC80"/>
+                <stop offset="25%" style="stop-color:#F77737"/>
+                <stop offset="50%" style="stop-color:#F56040"/>
+                <stop offset="75%" style="stop-color:#C13584"/>
+                <stop offset="100%" style="stop-color:#833AB4"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
     <div class="container">
         <section class="hero">
-            <div class="badge">Beta – Erste 100 User: Lifetime Deal</div>
+            <!-- Platform icons row - above headline -->
+            <div class="platforms-row">
+                <div class="platform-icon x">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </div>
+                <div class="platform-icon instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </div>
+                <div class="platform-icon linkedin">
+                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </div>
+                <div class="platform-icon tiktok">
+                    <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                </div>
+                <div class="platform-icon youtube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </div>
+                <div class="platform-icon bluesky">
+                    <svg viewBox="0 0 24 24"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
+                </div>
+                <div class="platform-icon snapchat">
+                    <svg viewBox="0 0 512 512"><path d="M496.926,366.6c-3.373-9.176-9.8-14.086-17.112-18.153-1.376-.806-2.641-1.451-3.72-1.947-2.182-1.128-4.414-2.22-6.634-3.373-22.8-12.09-40.609-27.341-52.959-45.42a102.889,102.889,0,0,1-9.089-16.12c-1.054-3.013-1-4.724-.248-6.287a10.221,10.221,0,0,1,2.914-3.038c3.918-2.591,7.96-5.22,10.7-6.993,4.885-3.162,8.754-5.667,11.246-7.44,9.362-6.547,15.909-13.5,20-21.278a42.371,42.371,0,0,0,2.1-35.191c-6.2-16.318-21.613-26.449-40.287-26.449a55.543,55.543,0,0,0-11.718,1.24c-1.029.224-2.059.459-3.063.72.174-11.16-.074-22.94-1.066-34.534-3.522-40.758-17.794-62.123-32.674-79.16A159.718,159.718,0,0,0,313.522,20.9C291.5,7.2,266.865,0,241.191,0h-5.767c-25.674,0-50.46,7.2-72.477,20.905A159.63,159.63,0,0,0,110.8,63.481c-14.88,17.038-29.152,38.4-32.674,79.161-.992,11.594-1.24,23.374-1.066,34.534-1-.261-2.034-.5-3.063-.72a55.719,55.719,0,0,0-11.717-1.24c-18.675,0-34.086,10.131-40.3,26.449a42.423,42.423,0,0,0,2.046,35.228c4.105,7.774,10.652,14.731,20.014,21.278,2.48,1.736,6.361,4.24,11.246,7.44,2.641,1.711,6.5,4.216,10.28,6.72a11.053,11.053,0,0,1,3.3,3.311c.794,1.563.831,3.288-.261,6.357a102.392,102.392,0,0,1-8.9,15.881c-12.316,18.079-30.166,33.33-53,45.42-2.108,1.116-4.328,2.245-6.6,3.373-1.203.56-2.714,1.29-4.4,2.157-6.697,3.843-12.91,8.542-16.372,17.569a35.821,35.821,0,0,0,.122,27.066c6.036,14.247,21.818,24.267,47.839,30.375,2.145.5,4.4.968,6.473,1.389,1.711.348,3.311.672,4.548.968,1.513.362,2.9,2.468,3.6,7.030.794,5.468,1.873,11.131,3.982,16.665,2.2,5.7,6.1,8.678,10.893,10.5a63.142,63.142,0,0,0,16.769,3.61,128.267,128.267,0,0,0,16.654-.062,191.477,191.477,0,0,1,20.09-.968c6.472,0,13.655.968,21.439,2.852,16.851,4.079,33.591,17.93,52.959,34.534,19.517,16.727,45.606,26.412,71.56,26.549H258.7c25.965-.137,52.054-9.822,71.56-26.549,19.368-16.6,36.108-30.455,52.959-34.534,7.784-1.884,14.967-2.852,21.438-2.852a191.54,191.54,0,0,1,20.091.968,140.309,140.309,0,0,0,16.654.062,63.036,63.036,0,0,0,16.768-3.61c4.787-1.809,8.693-4.787,10.906-10.5,2.109-5.534,3.187-11.2,3.982-16.665.077-.512.186-1.029.31-1.563,1.7-7.377,5.092-8.79,8.281-9.376,2.033-.4,3.97-.794,5.791-1.24,6.156-1.451,41.634-10.442,47.888-30.375A35.758,35.758,0,0,0,496.926,366.6Z"/></svg>
+                </div>
+                <div class="platform-icon whatsapp">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <div class="platform-icon telegram">
+                    <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </div>
+            </div>
 
             <h1>Social Media Management.<br>Einfach.</h1>
 
@@ -712,63 +645,6 @@
             </div>
 
             <p class="social-proof" id="waitlist-count">Lade...</p>
-
-            <div class="platforms">
-                <div class="platform instagram">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </div>
-                    <span>Instagram</span>
-                </div>
-                <div class="platform tiktok">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-                    </div>
-                    <span>TikTok</span>
-                </div>
-                <div class="platform youtube">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    </div>
-                    <span>YouTube</span>
-                </div>
-                <div class="platform linkedin">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                    </div>
-                    <span>LinkedIn</span>
-                </div>
-                <div class="platform x">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                    </div>
-                    <span>X</span>
-                </div>
-                <div class="platform bluesky">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
-                    </div>
-                    <span>Bluesky</span>
-                </div>
-                <div class="platform snapchat">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12.166 0c-1.903.006-3.612.736-4.885 1.97C5.932 3.307 5.322 5.214 5.322 7.2v.822c-.042.006-.09.006-.132.006-.558 0-1.122.222-1.476.624a1.64 1.64 0 0 0-.348 1.404c.162.702.768 1.146 1.476 1.248.006.054.018.108.024.162.006.048.012.102.012.156.036.366.102.738.186 1.104.018.066.036.132.054.198a8.21 8.21 0 0 0 1.02 2.328c.678 1.068 1.614 1.944 2.76 2.514.102.048.198.102.306.15.174.09.354.168.54.24l.006.012c-.012.396-.078.792-.24 1.152a.943.943 0 0 1-.186.27c-.312.33-.81.486-1.296.618a8.89 8.89 0 0 0-.492.132 3.391 3.391 0 0 0-.708.288c-.456.258-.78.642-.876 1.134-.06.312-.024.636.108.936.264.588.816.996 1.44 1.218.624.228 1.308.306 1.986.306.462 0 .924-.036 1.362-.078.27-.024.534-.054.798-.054.312 0 .606.036.906.126.39.114.756.312 1.134.522.516.282 1.062.588 1.698.798a5.63 5.63 0 0 0 1.71.27c.594 0 1.176-.09 1.71-.27.636-.21 1.182-.516 1.698-.798.378-.21.744-.408 1.134-.522.3-.09.594-.126.906-.126.264 0 .528.03.798.054.438.042.9.078 1.362.078.678 0 1.362-.078 1.986-.306.624-.222 1.176-.63 1.44-1.218a1.54 1.54 0 0 0 .108-.936c-.096-.492-.42-.876-.876-1.134a3.391 3.391 0 0 0-.708-.288 8.89 8.89 0 0 0-.492-.132c-.486-.132-.984-.288-1.296-.618a.943.943 0 0 1-.186-.27c-.162-.36-.228-.756-.24-1.152l.006-.012c.186-.072.366-.15.54-.24.108-.048.204-.102.306-.15 1.146-.57 2.082-1.446 2.76-2.514a8.21 8.21 0 0 0 1.02-2.328c.018-.066.036-.132.054-.198.084-.366.15-.738.186-1.104 0-.054.006-.108.012-.156.006-.054.018-.108.024-.162.708-.102 1.314-.546 1.476-1.248a1.64 1.64 0 0 0-.348-1.404c-.354-.402-.918-.624-1.476-.624-.042 0-.09 0-.132.006V7.2c0-1.986-.61-3.893-1.959-5.23C15.778.736 14.069.006 12.166 0z"/></svg>
-                    </div>
-                    <span>Snapchat</span>
-                </div>
-                <div class="platform whatsapp">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    </div>
-                    <span>WhatsApp</span>
-                </div>
-                <div class="platform telegram">
-                    <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                    </div>
-                    <span>Telegram</span>
-                </div>
-            </div>
         </section>
 
         <section class="bordered" id="features">
@@ -955,109 +831,127 @@
 
         // Butterfly fly-in animation for social icons
         function animatePlatforms() {
-            const platforms = document.querySelectorAll('.platform');
-            const platformsContainer = document.querySelector('.platforms');
+            const icons = document.querySelectorAll('.platform-icon');
+            const container = document.querySelector('.platforms-row');
 
-            if (!platformsContainer) return;
+            if (!container || !icons.length) return;
 
-            // Store original positions
+            // Store original positions relative to viewport
             const originalPositions = [];
-            platforms.forEach((platform, index) => {
-                const rect = platform.getBoundingClientRect();
+            icons.forEach((icon) => {
+                const rect = icon.getBoundingClientRect();
                 originalPositions.push({
-                    left: rect.left + window.scrollX,
-                    top: rect.top + window.scrollY,
+                    left: rect.left,
+                    top: rect.top,
                     width: rect.width,
                     height: rect.height
                 });
             });
 
-            // Generate random starting positions from edges of screen
-            platforms.forEach((platform, index) => {
-                const edge = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+            // Animate each icon
+            icons.forEach((icon, index) => {
+                // Random starting position from screen edges
+                const edge = Math.floor(Math.random() * 4);
                 let startX, startY;
 
                 switch(edge) {
                     case 0: // top
                         startX = Math.random() * window.innerWidth;
-                        startY = -100;
+                        startY = -80;
                         break;
                     case 1: // right
-                        startX = window.innerWidth + 100;
-                        startY = Math.random() * window.innerHeight;
+                        startX = window.innerWidth + 80;
+                        startY = Math.random() * (window.innerHeight * 0.6);
                         break;
                     case 2: // bottom
                         startX = Math.random() * window.innerWidth;
-                        startY = window.innerHeight + 100;
+                        startY = window.innerHeight + 80;
                         break;
                     case 3: // left
-                        startX = -100;
-                        startY = Math.random() * window.innerHeight;
+                        startX = -80;
+                        startY = Math.random() * (window.innerHeight * 0.6);
                         break;
                 }
 
-                // Set initial flying position
-                platform.classList.add('flying');
-                platform.style.left = startX + 'px';
-                platform.style.top = startY + 'px';
+                // Set up flying state
+                icon.classList.add('flying');
+                icon.style.left = startX + 'px';
+                icon.style.top = startY + 'px';
 
-                // Animate to destination with bezier curve path
-                const delay = index * 150 + Math.random() * 200;
-                const duration = 1500 + Math.random() * 500;
+                // Staggered start with randomness
+                const delay = 100 + index * 120 + Math.random() * 150;
+                const duration = 2000 + Math.random() * 800;
 
                 setTimeout(() => {
-                    animateToDestination(platform, startX, startY, originalPositions[index], duration, index);
+                    flyToDestination(icon, startX, startY, originalPositions[index], duration);
                 }, delay);
             });
         }
 
-        function animateToDestination(platform, startX, startY, dest, duration, index) {
+        function flyToDestination(icon, startX, startY, dest, duration) {
             const startTime = performance.now();
 
-            // Create waypoints for curved butterfly-like path
-            const midX1 = startX + (dest.left - startX) * 0.3 + (Math.random() - 0.5) * 200;
-            const midY1 = startY + (dest.top - startY) * 0.3 + (Math.random() - 0.5) * 150;
-            const midX2 = startX + (dest.left - startX) * 0.7 + (Math.random() - 0.5) * 150;
-            const midY2 = startY + (dest.top - startY) * 0.7 + (Math.random() - 0.5) * 100;
+            // Create organic curved path with multiple control points
+            const distX = dest.left - startX;
+            const distY = dest.top - startY;
 
-            function bezier(t, p0, p1, p2, p3) {
+            // Randomized control points for organic butterfly path
+            const cp1x = startX + distX * 0.25 + (Math.random() - 0.5) * 250;
+            const cp1y = startY + distY * 0.25 + (Math.random() - 0.5) * 200;
+            const cp2x = startX + distX * 0.5 + (Math.random() - 0.5) * 200;
+            const cp2y = startY + distY * 0.5 + (Math.random() - 0.5) * 150;
+            const cp3x = startX + distX * 0.75 + (Math.random() - 0.5) * 100;
+            const cp3y = startY + distY * 0.75 + (Math.random() - 0.5) * 80;
+
+            function cubicBezier(t, p0, p1, p2, p3) {
                 const u = 1 - t;
                 return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3;
             }
 
             function animate(currentTime) {
                 const elapsed = currentTime - startTime;
-                let progress = Math.min(elapsed / duration, 1);
+                let t = Math.min(elapsed / duration, 1);
 
-                // Ease out cubic for smooth landing
-                const eased = 1 - Math.pow(1 - progress, 3);
+                // Smooth easing - ease out quad
+                const eased = 1 - (1 - t) * (1 - t);
 
-                const x = bezier(eased, startX, midX1, midX2, dest.left);
-                const y = bezier(eased, startY, midY1, midY2, dest.top);
+                // Calculate position along path (using two bezier segments for more organic movement)
+                let x, y;
+                if (eased < 0.5) {
+                    const segT = eased * 2;
+                    x = cubicBezier(segT, startX, cp1x, cp2x, startX + distX * 0.5);
+                    y = cubicBezier(segT, startY, cp1y, cp2y, startY + distY * 0.5);
+                } else {
+                    const segT = (eased - 0.5) * 2;
+                    x = cubicBezier(segT, startX + distX * 0.5, cp2x, cp3x, dest.left);
+                    y = cubicBezier(segT, startY + distY * 0.5, cp2y, cp3y, dest.top);
+                }
 
-                platform.style.left = x + 'px';
-                platform.style.top = y + 'px';
+                icon.style.left = x + 'px';
+                icon.style.top = y + 'px';
 
-                if (progress < 1) {
+                if (t < 1) {
                     requestAnimationFrame(animate);
                 } else {
-                    // Landing complete
-                    platform.classList.remove('flying');
-                    platform.classList.add('landed');
-                    platform.style.left = '';
-                    platform.style.top = '';
-                    platform.style.position = '';
+                    // Landing complete - return to flow
+                    icon.classList.remove('flying');
+                    icon.classList.add('landed');
+                    icon.style.left = '';
+                    icon.style.top = '';
+                    icon.style.position = '';
                 }
             }
 
             requestAnimationFrame(animate);
         }
 
-        // Start animation when page loads and platforms section is visible
+        // Start animation when page is ready
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', animatePlatforms);
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(animatePlatforms, 100);
+            });
         } else {
-            animatePlatforms();
+            setTimeout(animatePlatforms, 100);
         }
     </script>
 
