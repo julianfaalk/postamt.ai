@@ -9,7 +9,7 @@ class LinkedInOAuth
     private const AUTH_URL = 'https://www.linkedin.com/oauth/v2/authorization';
     private const TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
     private const USERINFO_URL = 'https://api.linkedin.com/v2/userinfo';
-    private const POST_URL = 'https://api.linkedin.com/v2/ugcPosts';
+    private const POST_URL = 'https://api.linkedin.com/v2/posts';
 
     private HttpClient $http;
 
@@ -92,40 +92,38 @@ class LinkedInOAuth
     }
 
     /**
-     * Post to LinkedIn
+     * Post to LinkedIn (using Posts API)
      */
     public function createPost(string $accessToken, string $personUrn, string $text): array
     {
         $postData = [
             'author' => $personUrn,
+            'commentary' => $text,
+            'visibility' => 'PUBLIC',
+            'distribution' => [
+                'feedDistribution' => 'MAIN_FEED',
+                'targetEntities' => [],
+                'thirdPartyDistributionChannels' => [],
+            ],
             'lifecycleState' => 'PUBLISHED',
-            'specificContent' => [
-                'com.linkedin.ugc.ShareContent' => [
-                    'shareCommentary' => [
-                        'text' => $text,
-                    ],
-                    'shareMediaCategory' => 'NONE',
-                ],
-            ],
-            'visibility' => [
-                'com.linkedin.ugc.MemberNetworkVisibility' => 'PUBLIC',
-            ],
+            'isReshareDisabledByAuthor' => false,
         ];
 
         $response = $this->http->post(self::POST_URL, $postData, [
             'Authorization' => 'Bearer ' . $accessToken,
             'Content-Type' => 'application/json',
+            'LinkedIn-Version' => '202401',
             'X-Restli-Protocol-Version' => '2.0.0',
         ]);
 
-        if ($response['status'] !== 201) {
-            $error = $response['body']['message'] ?? 'LinkedIn Post konnte nicht erstellt werden';
+        if ($response['status'] !== 201 && $response['status'] !== 200) {
+            $error = $response['body']['message'] ?? $response['body']['error'] ?? 'LinkedIn Post konnte nicht erstellt werden';
             error_log('LinkedIn post failed: ' . print_r($response, true));
             throw new Exception($error);
         }
 
         return [
-            'id' => $response['body']['id'] ?? null,
+            'id' => $response['body']['id'] ?? $response['headers']['x-restli-id'] ?? null,
         ];
     }
 
