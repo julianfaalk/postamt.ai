@@ -1,0 +1,17 @@
+# Claude Code
+.claude/
+
+# Data directory (runtime data)
+data/
+
+# Storage
+storage/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db

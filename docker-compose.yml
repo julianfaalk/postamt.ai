@@ -1,0 +1,18 @@
+services:
+  postamt:
+    build: .
+    container_name: postamt
+    restart: unless-stopped
+    ports:
+      # Fuer Produktion mit WireGuard:
+      # - "10.8.0.1:8080:80"
+      # Fuer lokalen Test:
+      - "127.0.0.1:8085:80"
+    volumes:
+      - ./data:/var/www/html/data
+      - ./storage:/var/www/html/storage
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
