@@ -203,8 +203,9 @@
 
         function formatDate(dateStr) {
             if (!dateStr) return '';
+            // Parse as UTC (Z suffix) and display in user's local timezone
             const date = new Date(dateStr);
-            return date.toLocaleDateString('de-DE', {
+            return date.toLocaleString('de-DE', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',

@@ -62,10 +62,14 @@
         }
 
         function getPostsForDate(year, month, day) {
-            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             return posts.filter(post => {
-                const postDate = (post.scheduled_at || post.created_at || '').substring(0, 10);
-                return postDate === dateStr;
+                const dateStr = post.scheduled_at || post.created_at;
+                if (!dateStr) return false;
+                // Parse UTC date and convert to local timezone
+                const postDate = new Date(dateStr);
+                return postDate.getFullYear() === year &&
+                       postDate.getMonth() === month &&
+                       postDate.getDate() === day;
             });
         }
 

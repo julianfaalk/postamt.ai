@@ -334,7 +334,8 @@
                         content: content,
                         platforms: platforms,
                         scheduled_at: schedule === 'schedule' ? scheduledAt : null,
-                        publish_now: schedule === 'now'
+                        publish_now: schedule === 'now',
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                     })
                 });
 
