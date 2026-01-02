@@ -75,16 +75,20 @@
             font-size: 24px;
         }
 
+        .hero-emoji-container {
+            margin-top: 48px;
+            text-align: center;
+        }
+
         .hero-emoji {
-            font-size: 72px;
-            display: block;
-            margin-bottom: 20px;
-            animation: gentleBounce 2s ease-in-out infinite;
+            font-size: 64px;
+            display: inline-block;
+            animation: gentleBounce 3s ease-in-out infinite;
         }
 
         @keyframes gentleBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
         }
 
         .nav-links {
@@ -188,27 +192,30 @@
             font-size: 13px;
         }
 
-        /* Platforms - clean row above headline */
+        /* Platforms - positioned row above headline */
         .platforms-row {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
+            position: relative;
+            height: 50px;
             margin-bottom: 32px;
-            flex-wrap: wrap;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .platform-icon {
+            position: absolute;
             width: 36px;
             height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s ease;
             opacity: 0;
         }
 
         .platform-icon:hover {
             transform: scale(1.15);
+            transition: transform 0.2s ease;
         }
 
         .platform-icon svg {
@@ -229,34 +236,31 @@
 
         /* Smooth butterfly animation */
         .platform-icon.flying {
-            position: fixed;
             z-index: 1000;
             pointer-events: none;
             opacity: 1;
             filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
-            transition: filter 0.3s ease;
         }
 
         .platform-icon.flying svg {
-            animation: gentleFloat 1.2s ease-in-out infinite;
+            animation: gentleFloat 1s ease-in-out infinite;
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: rotate(-6deg) scale(1.1); }
-            50% { transform: rotate(6deg) scale(1.15); }
+            0%, 100% { transform: rotate(-5deg) scale(1.05); }
+            50% { transform: rotate(5deg) scale(1.1); }
         }
 
         .platform-icon.landed {
             opacity: 1;
-            position: relative;
         }
 
         .platform-icon.landed svg {
-            animation: softLand 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: softLand 0.3s ease-out forwards;
         }
 
         @keyframes softLand {
-            0% { transform: scale(1.2); }
+            0% { transform: scale(1.15); }
             60% { transform: scale(0.95); }
             100% { transform: scale(1); }
         }
@@ -658,8 +662,6 @@
                 </div>
             </div>
 
-            <span class="hero-emoji">🏤</span>
-
             <h1>Social Media Management.<br>Einfach.</h1>
 
             <p>Poste auf allen Plattformen gleichzeitig. Plane deine Woche in 15 Minuten. Fuer Creator die es ernst meinen.</p>
@@ -670,6 +672,10 @@
             </div>
 
             <p class="social-proof" id="waitlist-count">Lade...</p>
+
+            <div class="hero-emoji-container">
+                <span class="hero-emoji">🏤</span>
+            </div>
         </section>
 
         <section class="bordered" id="features">
@@ -862,64 +868,66 @@
 
             if (!container || !icons.length) return;
 
-            // Store original positions
-            const originalPositions = [];
-            icons.forEach((icon) => {
-                const rect = icon.getBoundingClientRect();
-                originalPositions.push({
-                    left: rect.left,
-                    top: rect.top
-                });
+            const containerRect = container.getBoundingClientRect();
+            const containerWidth = containerRect.width;
+            const iconCount = icons.length;
+            const iconSize = 36;
+            const totalWidth = iconCount * iconSize + (iconCount - 1) * 16; // icons + gaps
+            const startOffset = (containerWidth - totalWidth) / 2;
+
+            // Fixed final positions (evenly spaced in the container)
+            const finalPositions = [];
+            icons.forEach((icon, index) => {
+                const finalX = startOffset + index * (iconSize + 16);
+                const finalY = 7; // vertically centered in 50px container
+                finalPositions.push({ x: finalX, y: finalY });
             });
 
-            // Animate each icon
+            // Animate each icon from random start to fixed end
             icons.forEach((icon, index) => {
-                // Spread start positions around the screen
-                const angle = (index / icons.length) * Math.PI * 2 + Math.random() * 0.5;
-                const distance = 300 + Math.random() * 200;
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
+                const final = finalPositions[index];
 
-                let startX = centerX + Math.cos(angle) * distance;
-                let startY = centerY + Math.sin(angle) * distance * 0.6;
+                // Random start position (scattered around viewport)
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 250 + Math.random() * 200;
 
-                // Set up flying state
-                icon.classList.add('flying');
+                // Start positions relative to container center
+                const startX = containerWidth / 2 + Math.cos(angle) * distance;
+                const startY = Math.sin(angle) * distance;
+
+                // Position icon at start
                 icon.style.left = startX + 'px';
                 icon.style.top = startY + 'px';
+                icon.classList.add('flying');
 
-                // Staggered timing
-                const delay = index * 100;
-                const duration = 1800 + Math.random() * 400;
+                // Staggered animation start
+                const delay = index * 80;
+                const duration = 1400 + Math.random() * 300;
 
                 setTimeout(() => {
-                    smoothFly(icon, startX, startY, originalPositions[index], duration);
+                    flyToPosition(icon, startX, startY, final.x, final.y, duration);
                 }, delay);
             });
         }
 
-        function smoothFly(icon, startX, startY, dest, duration) {
+        function flyToPosition(icon, startX, startY, endX, endY, duration) {
             const startTime = performance.now();
 
-            // Single smooth curve with one control point
-            const midX = (startX + dest.left) / 2 + (Math.random() - 0.5) * 150;
-            const midY = Math.min(startY, dest.top) - 50 - Math.random() * 100;
-
-            function quadraticBezier(t, p0, p1, p2) {
-                const u = 1 - t;
-                return u * u * p0 + 2 * u * t * p1 + t * t * p2;
-            }
+            // Control point for smooth curve (arc upward)
+            const midX = (startX + endX) / 2 + (Math.random() - 0.5) * 80;
+            const midY = Math.min(startY, endY) - 60 - Math.random() * 80;
 
             function animate(currentTime) {
                 const elapsed = currentTime - startTime;
-                let t = Math.min(elapsed / duration, 1);
+                const t = Math.min(elapsed / duration, 1);
 
-                // Smooth ease-out curve
+                // Smooth ease-out cubic
                 const eased = 1 - Math.pow(1 - t, 3);
 
-                // Simple quadratic bezier path
-                const x = quadraticBezier(eased, startX, midX, dest.left);
-                const y = quadraticBezier(eased, startY, midY, dest.top);
+                // Quadratic bezier curve
+                const u = 1 - eased;
+                const x = u * u * startX + 2 * u * eased * midX + eased * eased * endX;
+                const y = u * u * startY + 2 * u * eased * midY + eased * eased * endY;
 
                 icon.style.left = x + 'px';
                 icon.style.top = y + 'px';
@@ -927,13 +935,12 @@
                 if (t < 1) {
                     requestAnimationFrame(animate);
                 } else {
-                    // Landing complete
+                    // Set exact final position
+                    icon.style.left = endX + 'px';
+                    icon.style.top = endY + 'px';
+                    icon.style.filter = '';
                     icon.classList.remove('flying');
                     icon.classList.add('landed');
-                    icon.style.left = '';
-                    icon.style.top = '';
-                    icon.style.position = '';
-                    icon.style.filter = '';
                 }
             }
 
@@ -943,10 +950,10 @@
         // Start animation when page is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(animatePlatforms, 200);
+                setTimeout(animatePlatforms, 300);
             });
         } else {
-            setTimeout(animatePlatforms, 200);
+            setTimeout(animatePlatforms, 300);
         }
     </script>
 
