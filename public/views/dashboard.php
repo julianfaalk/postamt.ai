@@ -140,12 +140,122 @@
 
         // Load dashboard data
         async function loadDashboardData() {
-            // This would load real data from the API
-            // For now, just placeholders
+            try {
+                // Load posts
+                const postsRes = await fetch('/api/posts');
+                const postsData = await postsRes.json();
+                const posts = postsData.posts || [];
+
+                // Load accounts
+                const accountsRes = await fetch('/api/accounts');
+                const accountsData = await accountsRes.json();
+                const accounts = accountsData.accounts || [];
+
+                // Update stats
+                document.getElementById('stat-posts').textContent = posts.length;
+                document.getElementById('stat-scheduled').textContent = posts.filter(p => p.status === 'scheduled').length;
+                document.getElementById('stat-accounts').textContent = accounts.length;
+
+                // Render recent posts
+                renderRecentPosts(posts.slice(0, 5));
+
+            } catch (err) {
+                console.error('Failed to load dashboard data:', err);
+            }
+        }
+
+        function renderRecentPosts(posts) {
+            const container = document.getElementById('recent-posts');
+
+            if (posts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>Noch keine Posts vorhanden.</p>
+                        <a href="/compose" class="btn-secondary">Ersten Post erstellen</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = posts.map(post => `
+                <div class="post-item">
+                    <div class="post-content">${escapeHtml(post.content.substring(0, 100))}${post.content.length > 100 ? '...' : ''}</div>
+                    <div class="post-meta">
+                        <span class="post-status status-${post.status}">${getStatusLabel(post.status)}</span>
+                        <span class="post-date">${formatDate(post.scheduled_at || post.created_at)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'draft': 'Entwurf',
+                'scheduled': 'Geplant',
+                'queued': 'In Warteschlange',
+                'publishing': 'Wird gepostet...',
+                'published': 'Veroeffentlicht',
+                'failed': 'Fehlgeschlagen',
+                'partial': 'Teilweise'
+            };
+            return labels[status] || status;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         loadDashboardData();
     </script>
+
+    <style>
+        .post-item {
+            padding: 16px;
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .post-content {
+            color: #fff;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #71717a;
+        }
+        .post-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-draft { background: #27272a; color: #a1a1aa; }
+        .status-scheduled { background: #172554; color: #60a5fa; }
+        .status-queued { background: #422006; color: #fbbf24; }
+        .status-publishing { background: #422006; color: #fbbf24; }
+        .status-published { background: #052e16; color: #4ade80; }
+        .status-failed { background: #450a0a; color: #f87171; }
+        .status-partial { background: #431407; color: #fb923c; }
+    </style>
 
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
