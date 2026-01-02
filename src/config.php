@@ -3,6 +3,22 @@
  * Application Configuration
  */
 
+// Load .env file if it exists
+$envFile = __DIR__ . '/../.env';
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue; // Skip comments
+        if (strpos($line, '=') === false) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+        if (!getenv($name)) {
+            putenv("{$name}={$value}");
+        }
+    }
+}
+
 define('APP_NAME', 'Postamt');
 define('APP_ENV', getenv('APP_ENV') ?: 'development');
 define('APP_DEBUG', getenv('APP_DEBUG') === 'true' || APP_ENV === 'development');
@@ -33,6 +49,11 @@ define('LINKEDIN_CLIENT_SECRET', getenv('LINKEDIN_CLIENT_SECRET') ?: '');
 
 define('YOUTUBE_CLIENT_ID', getenv('YOUTUBE_CLIENT_ID') ?: '');
 define('YOUTUBE_CLIENT_SECRET', getenv('YOUTUBE_CLIENT_SECRET') ?: '');
+
+// Google OAuth (for user login)
+define('GOOGLE_CLIENT_ID', getenv('GOOGLE_CLIENT_ID') ?: '');
+define('GOOGLE_CLIENT_SECRET', getenv('GOOGLE_CLIENT_SECRET') ?: '');
+define('GOOGLE_REDIRECT_URI', (getenv('BASE_URL') ?: 'http://localhost:8080') . '/auth/google/callback');
 
 // Base URL
 define('BASE_URL', getenv('BASE_URL') ?: 'http://localhost:8080');

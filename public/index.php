@@ -17,6 +17,8 @@ spl_autoload_register(function ($class) {
         __DIR__ . '/../src/Controllers/' . $class . '.php',
         __DIR__ . '/../src/Models/' . $class . '.php',
         __DIR__ . '/../src/Services/' . $class . '.php',
+        __DIR__ . '/../src/Publishers/' . $class . '.php',
+        __DIR__ . '/../src/Validators/' . $class . '.php',
     ];
 
     foreach ($paths as $path) {
@@ -145,6 +147,73 @@ $router->get('/api/auth/me', function () {
         return ['error' => 'Nicht angemeldet'];
     }
     return ['user' => $user];
+});
+
+// =====================================
+// Google OAuth Routes
+// =====================================
+
+// Initiate Google OAuth login
+$router->get('/auth/google', function () {
+    // Check if Google OAuth is configured
+    if (empty(GOOGLE_CLIENT_ID) || empty(GOOGLE_CLIENT_SECRET)) {
+        header('Location: /login?error=' . urlencode('Google OAuth ist nicht konfiguriert'));
+        exit;
+    }
+
+    $oauth = new GoogleOAuth();
+    header('Location: ' . $oauth->getAuthUrl());
+    exit;
+});
+
+// Google OAuth callback
+$router->get('/auth/google/callback', function () {
+    $code = $_GET['code'] ?? '';
+    $state = $_GET['state'] ?? '';
+    $error = $_GET['error'] ?? '';
+
+    // Handle OAuth errors
+    if ($error) {
+        $message = match($error) {
+            'access_denied' => 'Zugriff verweigert',
+            default => 'OAuth-Fehler: ' . $error,
+        };
+        header('Location: /login?error=' . urlencode($message));
+        exit;
+    }
+
+    if (empty($code)) {
+        header('Location: /login?error=' . urlencode('Kein Autorisierungscode erhalten'));
+        exit;
+    }
+
+    $oauth = new GoogleOAuth();
+
+    // Verify state to prevent CSRF
+    if (!$oauth->verifyState($state)) {
+        header('Location: /login?error=' . urlencode('Ungueltige Anfrage (CSRF-Schutz)'));
+        exit;
+    }
+
+    try {
+        // Exchange code for user info
+        $googleUser = $oauth->handleCallback($code);
+
+        // Find or create user
+        $user = GoogleOAuth::findOrCreateUser($googleUser);
+
+        // Log user in
+        Auth::login($user);
+
+        // Redirect to dashboard
+        header('Location: /dashboard');
+        exit;
+
+    } catch (Exception $e) {
+        error_log('Google OAuth error: ' . $e->getMessage());
+        header('Location: /login?error=' . urlencode('Anmeldung fehlgeschlagen: ' . $e->getMessage()));
+        exit;
+    }
 });
 
 // =====================================

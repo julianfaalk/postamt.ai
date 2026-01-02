@@ -24,8 +24,11 @@ $schema = <<<SQL
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
+    password_hash TEXT,
     name TEXT,
+    google_id TEXT UNIQUE,
+    avatar_url TEXT,
+    timezone TEXT DEFAULT 'Europe/Berlin',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -157,6 +160,7 @@ CREATE INDEX IF NOT EXISTS idx_templates_user_id ON templates(user_id);
 CREATE INDEX IF NOT EXISTS idx_hashtag_groups_user_id ON hashtag_groups(user_id);
 CREATE INDEX IF NOT EXISTS idx_seo_pages_slug ON seo_pages(slug);
 CREATE INDEX IF NOT EXISTS idx_seo_pages_page_type ON seo_pages(page_type);
+CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id);
 SQL;
 
 // Execute schema
