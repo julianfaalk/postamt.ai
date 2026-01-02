@@ -21,6 +21,9 @@
     <meta name="twitter:title" content="Postamt.ai  – Social Media Management. Einfach.">
     <meta name="twitter:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky, Snapchat, WhatsApp und Telegram gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
 
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏤</text></svg>">
+
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,6 +66,25 @@
             font-weight: 700;
             color: #111;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-emoji {
+            font-size: 24px;
+        }
+
+        .hero-emoji {
+            font-size: 72px;
+            display: block;
+            margin-bottom: 20px;
+            animation: gentleBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .nav-links {
@@ -205,28 +227,23 @@
         .platform-icon.whatsapp svg { fill: #25D366; }
         .platform-icon.telegram svg { fill: #0088cc; }
 
-        /* Butterfly animation */
+        /* Smooth butterfly animation */
         .platform-icon.flying {
             position: fixed;
             z-index: 1000;
             pointer-events: none;
             opacity: 1;
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+            transition: filter 0.3s ease;
         }
 
         .platform-icon.flying svg {
-            animation: flutter 0.08s ease-in-out infinite alternate,
-                       pulse 0.4s ease-in-out infinite;
+            animation: gentleFloat 1.2s ease-in-out infinite;
         }
 
-        @keyframes flutter {
-            0% { transform: rotate(-18deg) scaleX(0.85); }
-            100% { transform: rotate(18deg) scaleX(0.85); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1.15); }
-            50% { transform: scale(1.3); }
+        @keyframes gentleFloat {
+            0%, 100% { transform: rotate(-6deg) scale(1.1); }
+            50% { transform: rotate(6deg) scale(1.15); }
         }
 
         .platform-icon.landed {
@@ -235,16 +252,13 @@
         }
 
         .platform-icon.landed svg {
-            animation: landBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: softLand 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        @keyframes landBounce {
-            0% { transform: scale(1.5) rotate(10deg); }
-            30% { transform: scale(0.7) rotate(-5deg); }
-            50% { transform: scale(1.2) rotate(3deg); }
-            70% { transform: scale(0.95) rotate(-2deg); }
-            85% { transform: scale(1.05) rotate(1deg); }
-            100% { transform: scale(1) rotate(0deg); }
+        @keyframes softLand {
+            0% { transform: scale(1.2); }
+            60% { transform: scale(0.95); }
+            100% { transform: scale(1); }
         }
 
         /* Section */
@@ -589,7 +603,7 @@
 <body>
     <nav>
         <div class="container">
-            <a href="/" class="logo">Postamt.ai</a>
+            <a href="/" class="logo"><span class="logo-emoji">🏤</span> Postamt.ai</a>
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#pricing">Preise</a>
@@ -643,6 +657,8 @@
                     <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                 </div>
             </div>
+
+            <span class="hero-emoji">🏤</span>
 
             <h1>Social Media Management.<br>Einfach.</h1>
 
@@ -748,6 +764,7 @@
 
     <section style="padding: 80px 0;">
         <div class="final-cta">
+            <span style="font-size: 48px; display: block; margin-bottom: 16px;">🏤</span>
             <h2>Bereit?</h2>
             <p>Starte jetzt mit Postamt.</p>
             <div class="cta-box">
@@ -759,7 +776,7 @@
 
     <footer>
         <div class="container">
-            <p>Postamt – Gebaut fuer Creator</p>
+            <p>🏤 Postamt – Gebaut fuer Creator</p>
         </div>
     </footer>
 
@@ -838,116 +855,71 @@
 
         loadWaitlistCount();
 
-        // Dynamic butterfly fly-in animation for social icons
+        // Smooth fly-in animation for social icons
         function animatePlatforms() {
             const icons = document.querySelectorAll('.platform-icon');
             const container = document.querySelector('.platforms-row');
 
             if (!container || !icons.length) return;
 
-            // Store original positions relative to viewport
+            // Store original positions
             const originalPositions = [];
             icons.forEach((icon) => {
                 const rect = icon.getBoundingClientRect();
                 originalPositions.push({
                     left: rect.left,
-                    top: rect.top,
-                    width: rect.width,
-                    height: rect.height
+                    top: rect.top
                 });
             });
 
-            // Animate each icon with varied behaviors
+            // Animate each icon
             icons.forEach((icon, index) => {
-                // Random starting position - more spread out
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 400 + Math.random() * 300;
+                // Spread start positions around the screen
+                const angle = (index / icons.length) * Math.PI * 2 + Math.random() * 0.5;
+                const distance = 300 + Math.random() * 200;
                 const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 3;
+                const centerY = window.innerHeight / 2;
 
                 let startX = centerX + Math.cos(angle) * distance;
-                let startY = centerY + Math.sin(angle) * distance;
-
-                // Keep within reasonable bounds but allow off-screen starts
-                startX = Math.max(-100, Math.min(window.innerWidth + 100, startX));
-                startY = Math.max(-100, Math.min(window.innerHeight + 100, startY));
+                let startY = centerY + Math.sin(angle) * distance * 0.6;
 
                 // Set up flying state
                 icon.classList.add('flying');
                 icon.style.left = startX + 'px';
                 icon.style.top = startY + 'px';
 
-                // More varied timing - some fast, some slow
-                const delay = 50 + index * 80 + Math.random() * 200;
-                const duration = 2200 + Math.random() * 1200;
-
-                // Random flight style
-                const flightStyle = Math.floor(Math.random() * 3); // 0: spiral, 1: zigzag, 2: loop
+                // Staggered timing
+                const delay = index * 100;
+                const duration = 1800 + Math.random() * 400;
 
                 setTimeout(() => {
-                    flyDynamic(icon, startX, startY, originalPositions[index], duration, flightStyle);
+                    smoothFly(icon, startX, startY, originalPositions[index], duration);
                 }, delay);
             });
         }
 
-        function flyDynamic(icon, startX, startY, dest, duration, style) {
+        function smoothFly(icon, startX, startY, dest, duration) {
             const startTime = performance.now();
-            const distX = dest.left - startX;
-            const distY = dest.top - startY;
 
-            // Flight parameters based on style
-            const loopCount = style === 2 ? 1 + Math.floor(Math.random() * 2) : 0;
-            const spiralTightness = style === 0 ? 0.3 + Math.random() * 0.4 : 0;
-            const zigzagAmplitude = style === 1 ? 80 + Math.random() * 120 : 0;
-            const zigzagFrequency = style === 1 ? 3 + Math.random() * 3 : 0;
+            // Single smooth curve with one control point
+            const midX = (startX + dest.left) / 2 + (Math.random() - 0.5) * 150;
+            const midY = Math.min(startY, dest.top) - 50 - Math.random() * 100;
 
-            // Random wobble for all styles
-            const wobbleAmp = 15 + Math.random() * 25;
-            const wobbleFreq = 8 + Math.random() * 8;
+            function quadraticBezier(t, p0, p1, p2) {
+                const u = 1 - t;
+                return u * u * p0 + 2 * u * t * p1 + t * t * p2;
+            }
 
             function animate(currentTime) {
                 const elapsed = currentTime - startTime;
                 let t = Math.min(elapsed / duration, 1);
 
-                // Smooth easing with slight overshoot
-                const eased = t < 0.5
-                    ? 2 * t * t
-                    : 1 - Math.pow(-2 * t + 2, 2) / 2;
+                // Smooth ease-out curve
+                const eased = 1 - Math.pow(1 - t, 3);
 
-                // Base position (linear interpolation)
-                let x = startX + distX * eased;
-                let y = startY + distY * eased;
-
-                // Add style-specific movement
-                if (style === 0 && spiralTightness > 0) {
-                    // Spiral inward
-                    const spiralProgress = (1 - eased) * spiralTightness;
-                    const spiralAngle = t * Math.PI * 6;
-                    x += Math.cos(spiralAngle) * 100 * spiralProgress;
-                    y += Math.sin(spiralAngle) * 80 * spiralProgress;
-                }
-
-                if (style === 1 && zigzagAmplitude > 0) {
-                    // Zigzag path
-                    const zigzag = Math.sin(t * Math.PI * zigzagFrequency) * zigzagAmplitude * (1 - eased);
-                    // Perpendicular to travel direction
-                    const angle = Math.atan2(distY, distX) + Math.PI / 2;
-                    x += Math.cos(angle) * zigzag;
-                    y += Math.sin(angle) * zigzag;
-                }
-
-                if (style === 2 && loopCount > 0) {
-                    // Loop-de-loop
-                    const loopPhase = t * Math.PI * 2 * loopCount;
-                    const loopSize = 60 * (1 - eased * eased);
-                    x += Math.sin(loopPhase) * loopSize;
-                    y += (1 - Math.cos(loopPhase)) * loopSize * 0.5;
-                }
-
-                // Add constant wobble (butterfly flutter movement)
-                const wobble = Math.sin(t * Math.PI * wobbleFreq) * wobbleAmp * (1 - eased * 0.8);
-                x += wobble * 0.7;
-                y += Math.cos(t * Math.PI * wobbleFreq * 1.3) * wobbleAmp * 0.5 * (1 - eased * 0.8);
+                // Simple quadratic bezier path
+                const x = quadraticBezier(eased, startX, midX, dest.left);
+                const y = quadraticBezier(eased, startY, midY, dest.top);
 
                 icon.style.left = x + 'px';
                 icon.style.top = y + 'px';
@@ -971,10 +943,10 @@
         // Start animation when page is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(animatePlatforms, 150);
+                setTimeout(animatePlatforms, 200);
             });
         } else {
-            setTimeout(animatePlatforms, 150);
+            setTimeout(animatePlatforms, 200);
         }
     </script>
 
