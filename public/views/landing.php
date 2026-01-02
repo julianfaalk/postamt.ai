@@ -211,15 +211,22 @@
             z-index: 1000;
             pointer-events: none;
             opacity: 1;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
         }
 
         .platform-icon.flying svg {
-            animation: flutter 0.15s ease-in-out infinite alternate;
+            animation: flutter 0.08s ease-in-out infinite alternate,
+                       pulse 0.4s ease-in-out infinite;
         }
 
         @keyframes flutter {
-            0% { transform: rotate(-12deg) scale(1.1); }
-            100% { transform: rotate(12deg) scale(1.1); }
+            0% { transform: rotate(-18deg) scaleX(0.85); }
+            100% { transform: rotate(18deg) scaleX(0.85); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1.15); }
+            50% { transform: scale(1.3); }
         }
 
         .platform-icon.landed {
@@ -228,13 +235,15 @@
         }
 
         .platform-icon.landed svg {
-            animation: landBounce 0.3s ease-out forwards;
+            animation: landBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         @keyframes landBounce {
-            0% { transform: scale(1.3) rotate(0deg); }
-            50% { transform: scale(0.85) rotate(0deg); }
-            75% { transform: scale(1.1) rotate(0deg); }
+            0% { transform: scale(1.5) rotate(10deg); }
+            30% { transform: scale(0.7) rotate(-5deg); }
+            50% { transform: scale(1.2) rotate(3deg); }
+            70% { transform: scale(0.95) rotate(-2deg); }
+            85% { transform: scale(1.05) rotate(1deg); }
             100% { transform: scale(1) rotate(0deg); }
         }
 
@@ -829,7 +838,7 @@
 
         loadWaitlistCount();
 
-        // Butterfly fly-in animation for social icons
+        // Dynamic butterfly fly-in animation for social icons
         function animatePlatforms() {
             const icons = document.querySelectorAll('.platform-icon');
             const container = document.querySelector('.platforms-row');
@@ -848,84 +857,97 @@
                 });
             });
 
-            // Animate each icon
+            // Animate each icon with varied behaviors
             icons.forEach((icon, index) => {
-                // Random starting position from screen edges
-                const edge = Math.floor(Math.random() * 4);
-                let startX, startY;
+                // Random starting position - more spread out
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 400 + Math.random() * 300;
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 3;
 
-                switch(edge) {
-                    case 0: // top
-                        startX = Math.random() * window.innerWidth;
-                        startY = -80;
-                        break;
-                    case 1: // right
-                        startX = window.innerWidth + 80;
-                        startY = Math.random() * (window.innerHeight * 0.6);
-                        break;
-                    case 2: // bottom
-                        startX = Math.random() * window.innerWidth;
-                        startY = window.innerHeight + 80;
-                        break;
-                    case 3: // left
-                        startX = -80;
-                        startY = Math.random() * (window.innerHeight * 0.6);
-                        break;
-                }
+                let startX = centerX + Math.cos(angle) * distance;
+                let startY = centerY + Math.sin(angle) * distance;
+
+                // Keep within reasonable bounds but allow off-screen starts
+                startX = Math.max(-100, Math.min(window.innerWidth + 100, startX));
+                startY = Math.max(-100, Math.min(window.innerHeight + 100, startY));
 
                 // Set up flying state
                 icon.classList.add('flying');
                 icon.style.left = startX + 'px';
                 icon.style.top = startY + 'px';
 
-                // Staggered start with randomness
-                const delay = 100 + index * 120 + Math.random() * 150;
-                const duration = 2000 + Math.random() * 800;
+                // More varied timing - some fast, some slow
+                const delay = 50 + index * 80 + Math.random() * 200;
+                const duration = 2200 + Math.random() * 1200;
+
+                // Random flight style
+                const flightStyle = Math.floor(Math.random() * 3); // 0: spiral, 1: zigzag, 2: loop
 
                 setTimeout(() => {
-                    flyToDestination(icon, startX, startY, originalPositions[index], duration);
+                    flyDynamic(icon, startX, startY, originalPositions[index], duration, flightStyle);
                 }, delay);
             });
         }
 
-        function flyToDestination(icon, startX, startY, dest, duration) {
+        function flyDynamic(icon, startX, startY, dest, duration, style) {
             const startTime = performance.now();
-
-            // Create organic curved path with multiple control points
             const distX = dest.left - startX;
             const distY = dest.top - startY;
 
-            // Randomized control points for organic butterfly path
-            const cp1x = startX + distX * 0.25 + (Math.random() - 0.5) * 250;
-            const cp1y = startY + distY * 0.25 + (Math.random() - 0.5) * 200;
-            const cp2x = startX + distX * 0.5 + (Math.random() - 0.5) * 200;
-            const cp2y = startY + distY * 0.5 + (Math.random() - 0.5) * 150;
-            const cp3x = startX + distX * 0.75 + (Math.random() - 0.5) * 100;
-            const cp3y = startY + distY * 0.75 + (Math.random() - 0.5) * 80;
+            // Flight parameters based on style
+            const loopCount = style === 2 ? 1 + Math.floor(Math.random() * 2) : 0;
+            const spiralTightness = style === 0 ? 0.3 + Math.random() * 0.4 : 0;
+            const zigzagAmplitude = style === 1 ? 80 + Math.random() * 120 : 0;
+            const zigzagFrequency = style === 1 ? 3 + Math.random() * 3 : 0;
 
-            function cubicBezier(t, p0, p1, p2, p3) {
-                const u = 1 - t;
-                return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3;
-            }
+            // Random wobble for all styles
+            const wobbleAmp = 15 + Math.random() * 25;
+            const wobbleFreq = 8 + Math.random() * 8;
 
             function animate(currentTime) {
                 const elapsed = currentTime - startTime;
                 let t = Math.min(elapsed / duration, 1);
 
-                // Smooth easing - ease out quad
-                const eased = 1 - (1 - t) * (1 - t);
+                // Smooth easing with slight overshoot
+                const eased = t < 0.5
+                    ? 2 * t * t
+                    : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
-                // Calculate position along path (using two bezier segments for more organic movement)
-                let x, y;
-                if (eased < 0.5) {
-                    const segT = eased * 2;
-                    x = cubicBezier(segT, startX, cp1x, cp2x, startX + distX * 0.5);
-                    y = cubicBezier(segT, startY, cp1y, cp2y, startY + distY * 0.5);
-                } else {
-                    const segT = (eased - 0.5) * 2;
-                    x = cubicBezier(segT, startX + distX * 0.5, cp2x, cp3x, dest.left);
-                    y = cubicBezier(segT, startY + distY * 0.5, cp2y, cp3y, dest.top);
+                // Base position (linear interpolation)
+                let x = startX + distX * eased;
+                let y = startY + distY * eased;
+
+                // Add style-specific movement
+                if (style === 0 && spiralTightness > 0) {
+                    // Spiral inward
+                    const spiralProgress = (1 - eased) * spiralTightness;
+                    const spiralAngle = t * Math.PI * 6;
+                    x += Math.cos(spiralAngle) * 100 * spiralProgress;
+                    y += Math.sin(spiralAngle) * 80 * spiralProgress;
                 }
+
+                if (style === 1 && zigzagAmplitude > 0) {
+                    // Zigzag path
+                    const zigzag = Math.sin(t * Math.PI * zigzagFrequency) * zigzagAmplitude * (1 - eased);
+                    // Perpendicular to travel direction
+                    const angle = Math.atan2(distY, distX) + Math.PI / 2;
+                    x += Math.cos(angle) * zigzag;
+                    y += Math.sin(angle) * zigzag;
+                }
+
+                if (style === 2 && loopCount > 0) {
+                    // Loop-de-loop
+                    const loopPhase = t * Math.PI * 2 * loopCount;
+                    const loopSize = 60 * (1 - eased * eased);
+                    x += Math.sin(loopPhase) * loopSize;
+                    y += (1 - Math.cos(loopPhase)) * loopSize * 0.5;
+                }
+
+                // Add constant wobble (butterfly flutter movement)
+                const wobble = Math.sin(t * Math.PI * wobbleFreq) * wobbleAmp * (1 - eased * 0.8);
+                x += wobble * 0.7;
+                y += Math.cos(t * Math.PI * wobbleFreq * 1.3) * wobbleAmp * 0.5 * (1 - eased * 0.8);
 
                 icon.style.left = x + 'px';
                 icon.style.top = y + 'px';
@@ -933,12 +955,13 @@
                 if (t < 1) {
                     requestAnimationFrame(animate);
                 } else {
-                    // Landing complete - return to flow
+                    // Landing complete
                     icon.classList.remove('flying');
                     icon.classList.add('landed');
                     icon.style.left = '';
                     icon.style.top = '';
                     icon.style.position = '';
+                    icon.style.filter = '';
                 }
             }
 
@@ -948,10 +971,10 @@
         // Start animation when page is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(animatePlatforms, 100);
+                setTimeout(animatePlatforms, 150);
             });
         } else {
-            setTimeout(animatePlatforms, 100);
+            setTimeout(animatePlatforms, 150);
         }
     </script>
 
