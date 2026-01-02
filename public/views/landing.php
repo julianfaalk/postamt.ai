@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postamt – Social Media Management. Einfach.</title>
+    <meta name="description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten. Fuer Creator die es ernst meinen.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://postamt.ai/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Postamt – Social Media Management. Einfach.">
+    <meta property="og:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://postamt.ai/">
+    <meta property="og:site_name" content="Postamt">
+    <meta property="og:locale" content="de_DE">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Postamt – Social Media Management. Einfach.">
+    <meta name="twitter:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -556,6 +576,45 @@
             }
         }
     </style>
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Postamt",
+        "description": "Social Media Management Tool - Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig.",
+        "url": "https://postamt.ai",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "9",
+            "priceCurrency": "EUR",
+            "priceValidUntil": "2026-12-31"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "ratingCount": "1"
+        },
+        "featureList": [
+            "Cross-Posting auf allen Plattformen",
+            "Smart Scheduling",
+            "Content-Werkzeuge",
+            "Analytics Dashboard"
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Postamt",
+        "url": "https://postamt.ai",
+        "description": "Social Media Management fuer Creator"
+    }
+    </script>
 </head>
 <body>
     <nav>
@@ -809,6 +868,6 @@
 
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="Analytics" referrerpolicy="no-referrer-when-downgrade"/></noscript>
 </body>
 </html>

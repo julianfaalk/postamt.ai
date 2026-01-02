@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /compose
+Disallow: /calendar
+Disallow: /accounts
+Disallow: /analytics
+Disallow: /templates
+Disallow: /settings
+
+Sitemap: https://postamt.ai/sitemap.xml
