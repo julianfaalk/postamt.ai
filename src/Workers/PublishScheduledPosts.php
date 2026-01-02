@@ -162,7 +162,7 @@ function publishToPlatform(array $platform, array $post): array
             throw new Exception('Instagram publishing not yet implemented');
 
         case 'linkedin':
-            throw new Exception('LinkedIn publishing not yet implemented');
+            return publishToLinkedIn($accessToken, $platform['platform_user_id'], $post);
 
         case 'tiktok':
             throw new Exception('TikTok publishing not yet implemented');
@@ -213,4 +213,14 @@ function publishToTwitter(string $accessToken, array $post): array
 {
     $twitter = new TwitterOAuth();
     return $twitter->postTweet($accessToken, $post['content']);
+}
+
+/**
+ * Publish to LinkedIn
+ */
+function publishToLinkedIn(string $accessToken, string $personId, array $post): array
+{
+    $linkedin = new LinkedInOAuth();
+    $personUrn = 'urn:li:person:' . $personId;
+    return $linkedin->createPost($accessToken, $personUrn, $post['content']);
 }
