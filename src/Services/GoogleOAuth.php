@@ -183,9 +183,10 @@ class GoogleOAuth
             return $user;
         }
 
-        // Create new user
+        // Create new user (with placeholder password for OAuth-only users)
         $userId = Database::insert('users', [
             'email' => $googleUser['email'],
+            'password_hash' => password_hash(bin2hex(random_bytes(32)), PASSWORD_BCRYPT),
             'name' => $googleUser['name'],
             'google_id' => $googleUser['google_id'],
             'avatar_url' => $googleUser['picture'],
