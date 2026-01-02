@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postamt.ai – Social Media Management. Einfach.</title>
-    <meta name="description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten. Fuer Creator die es ernst meinen.">
+    <meta name="description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig. Plane deine Social Media Woche in 15 Minuten. Fuer Creator die es ernst meinen.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://postamt.ai/">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Postamt.ai – Social Media Management. Einfach.">
-    <meta property="og:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
+    <meta property="og:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://postamt.ai/">
     <meta property="og:site_name" content="Postamt">
@@ -19,7 +19,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Postamt.ai  – Social Media Management. Einfach.">
-    <meta name="twitter:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
+    <meta name="twitter:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -284,6 +284,17 @@
         }
         .platform.bluesky .platform-icon svg {
             fill: #fff;
+        }
+
+        /* Snapchat - yellow */
+        .platform.snapchat .platform-icon {
+            background: #FFFC00;
+        }
+        .platform.snapchat .platform-icon::before {
+            background: #FFFC00;
+        }
+        .platform.snapchat .platform-icon svg {
+            fill: #000;
         }
 
         /* Section */
@@ -583,7 +594,7 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Postamt",
-        "description": "Social Media Management Tool - Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig.",
+        "description": "Social Media Management Tool - Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig.",
         "url": "https://postamt.ai",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
@@ -679,6 +690,12 @@
                         <svg viewBox="0 0 24 24"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
                     </div>
                     <span>Bluesky</span>
+                </div>
+                <div class="platform snapchat">
+                    <div class="platform-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.12-.063-.18-.01-.082.005-.165.03-.24.029-.27.209-.479.449-.524 3.28-.54 4.736-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-.732-.254-1.303-.629-1.303-1.094 0-.435.466-.824.964-.869.135-.015.27-.029.405-.029.12 0 .255.015.375.045.359.12.659.27.959.359.105.031.194.061.27.061.194 0 .299-.104.329-.194-.012-.18-.022-.359-.034-.539l-.003-.06c-.104-1.627-.225-3.654.299-4.848C7.754 1.083 11.101.793 12.092.793h.114z"/></svg>
+                    </div>
+                    <span>Snapchat</span>
                 </div>
             </div>
         </section>
