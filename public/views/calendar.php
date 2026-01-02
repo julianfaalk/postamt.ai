@@ -40,6 +40,7 @@
 
     <script>
         let currentDate = new Date();
+        let posts = [];
 
         const months = [
             'Januar', 'Februar', 'Maerz', 'April', 'Mai', 'Juni',
@@ -47,6 +48,26 @@
         ];
 
         const days = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+
+        async function loadPosts() {
+            try {
+                const response = await fetch('/api/posts');
+                const data = await response.json();
+                posts = data.posts || [];
+                renderCalendar();
+            } catch (err) {
+                console.error('Failed to load posts:', err);
+                renderCalendar();
+            }
+        }
+
+        function getPostsForDate(year, month, day) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            return posts.filter(post => {
+                const postDate = (post.scheduled_at || post.created_at || '').substring(0, 10);
+                return postDate === dateStr;
+            });
+        }
 
         function renderCalendar() {
             const grid = document.getElementById('calendar-grid');
@@ -80,15 +101,22 @@
             for (let i = 0; i < totalCells; i++) {
                 let dayNumber;
                 let classes = 'calendar-day';
+                let dayPosts = [];
+                let cellYear = year;
+                let cellMonth = month;
 
                 if (i < startOffset) {
                     // Previous month
                     dayNumber = prevMonthDays - startOffset + i + 1;
                     classes += ' other-month';
+                    cellMonth = month - 1;
+                    if (cellMonth < 0) { cellMonth = 11; cellYear--; }
                 } else if (i >= startOffset + daysInMonth) {
                     // Next month
                     dayNumber = i - startOffset - daysInMonth + 1;
                     classes += ' other-month';
+                    cellMonth = month + 1;
+                    if (cellMonth > 11) { cellMonth = 0; cellYear++; }
                 } else {
                     // Current month
                     dayNumber = i - startOffset + 1;
@@ -102,10 +130,31 @@
                     }
                 }
 
-                grid.innerHTML += '<div class="' + classes + '">' +
-                    '<div class="calendar-date">' + dayNumber + '</div>' +
-                    '</div>';
+                dayPosts = getPostsForDate(cellYear, cellMonth, dayNumber);
+
+                let postsHtml = '';
+                if (dayPosts.length > 0) {
+                    postsHtml = dayPosts.slice(0, 3).map(post => `
+                        <div class="calendar-post status-${post.status}" title="${escapeHtml(post.content)}">
+                            ${escapeHtml(post.content.substring(0, 20))}${post.content.length > 20 ? '...' : ''}
+                        </div>
+                    `).join('');
+                    if (dayPosts.length > 3) {
+                        postsHtml += `<div class="calendar-more">+${dayPosts.length - 3} mehr</div>`;
+                    }
+                }
+
+                grid.innerHTML += `<div class="${classes}">
+                    <div class="calendar-date">${dayNumber}</div>
+                    <div class="calendar-posts">${postsHtml}</div>
+                </div>`;
             }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function prevMonth() {
@@ -128,8 +177,40 @@
             window.location.href = '/';
         }
 
-        renderCalendar();
+        loadPosts();
     </script>
+
+    <style>
+        .calendar-posts {
+            margin-top: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .calendar-post {
+            font-size: 11px;
+            padding: 2px 4px;
+            border-radius: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+        .calendar-post.status-draft { background: #27272a; color: #a1a1aa; }
+        .calendar-post.status-scheduled { background: #172554; color: #60a5fa; }
+        .calendar-post.status-queued { background: #422006; color: #fbbf24; }
+        .calendar-post.status-publishing { background: #422006; color: #fbbf24; }
+        .calendar-post.status-published { background: #052e16; color: #4ade80; }
+        .calendar-post.status-failed { background: #450a0a; color: #f87171; }
+        .calendar-more {
+            font-size: 10px;
+            color: #71717a;
+            padding: 2px 4px;
+        }
+        .calendar-day {
+            min-height: 100px;
+        }
+    </style>
 
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
