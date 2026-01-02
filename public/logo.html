@@ -1,68 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Postamt.ai Logo Download</title>
+    <title>Postamt.ai Logo</title>
     <style>
         body {
             margin: 0;
-            padding: 40px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
             background: #09090b;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #fff;
-        }
-        h1 { margin-bottom: 30px; }
-        .logo-container {
-            background: #18181b;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
         }
         .logo {
-            font-size: 150px;
+            font-size: 200px;
             line-height: 1;
         }
-        .downloads {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .download-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #3b82f6;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-        .download-btn:hover {
-            background: #2563eb;
-        }
-        .note {
-            margin-top: 30px;
+        .download-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             color: #666;
+            font-family: sans-serif;
             font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <h1>Postamt.ai Logo</h1>
-
-    <div class="logo-container">
-        <div class="logo">🏤</div>
-    </div>
-
-    <div class="downloads">
-        <a href="https://emojicdn.elk.sh/🏤?style=apple&size=128" download="postamt-logo-128.png" class="download-btn">128px PNG</a>
-        <a href="https://emojicdn.elk.sh/🏤?style=apple&size=256" download="postamt-logo-256.png" class="download-btn">256px PNG</a>
-        <a href="https://emojicdn.elk.sh/🏤?style=apple&size=512" download="postamt-logo-512.png" class="download-btn">512px PNG</a>
-    </div>
-
-    <p class="note">Klick auf einen Button zum Downloaden. Fuer LinkedIn empfohlen: 512px</p>
+    <div class="logo">🏤</div>
+    <div class="download-hint">Rechtsklick → "Bild speichern" oder Screenshot machen</div>
 </body>
 </html>
