@@ -12,6 +12,25 @@ Auth::start();
 // Create router
 $router = new Router();
 
+// Timezone helper functions
+function getUserTimezone(): string {
+    $user = Auth::user();
+    return $user['timezone'] ?? 'Europe/Berlin';
+}
+
+function userTimeToUtc(string $userTime): string {
+    $tz = new DateTimeZone(getUserTimezone());
+    $dt = new DateTime($userTime, $tz);
+    $dt->setTimezone(new DateTimeZone('UTC'));
+    return $dt->format('Y-m-d H:i:s');
+}
+
+function utcToUserTime(string $utcTime): string {
+    $dt = new DateTime($utcTime, new DateTimeZone('UTC'));
+    $dt->setTimezone(new DateTimeZone(getUserTimezone()));
+    return $dt->format('Y-m-d H:i:s');
+}
+
 // =====================================
 // API Routes
 // =====================================
@@ -213,11 +232,12 @@ $router->post('/api/posts', function () {
     $status = 'draft';
 
     if (!empty($input['scheduled_at'])) {
-        $scheduledAt = date('Y-m-d H:i:s', strtotime($input['scheduled_at']));
+        // Convert user's local time to UTC for storage
+        $scheduledAt = userTimeToUtc($input['scheduled_at']);
         $status = 'scheduled';
     } elseif (!empty($input['publish_now'])) {
         $status = 'queued';
-        $scheduledAt = date('Y-m-d H:i:s');
+        $scheduledAt = gmdate('Y-m-d H:i:s'); // UTC now
     }
 
     $postId = Database::insert('posts', [
@@ -267,6 +287,19 @@ $router->get('/api/posts', function () {
 
     $posts = Database::fetchAll($sql, $params);
 
+    // Convert UTC times to user's timezone
+    foreach ($posts as &$post) {
+        if (!empty($post['scheduled_at'])) {
+            $post['scheduled_at'] = utcToUserTime($post['scheduled_at']);
+        }
+        if (!empty($post['published_at'])) {
+            $post['published_at'] = utcToUserTime($post['published_at']);
+        }
+        if (!empty($post['created_at'])) {
+            $post['created_at'] = utcToUserTime($post['created_at']);
+        }
+    }
+
     return ['posts' => $posts];
 });
 
@@ -283,6 +316,17 @@ $router->get('/api/posts/{id}', function ($params) {
     if (!$post) {
         http_response_code(404);
         return ['error' => 'Post nicht gefunden'];
+    }
+
+    // Convert UTC times to user's timezone
+    if (!empty($post['scheduled_at'])) {
+        $post['scheduled_at'] = utcToUserTime($post['scheduled_at']);
+    }
+    if (!empty($post['published_at'])) {
+        $post['published_at'] = utcToUserTime($post['published_at']);
+    }
+    if (!empty($post['created_at'])) {
+        $post['created_at'] = utcToUserTime($post['created_at']);
     }
 
     // Get platform assignments
@@ -324,7 +368,8 @@ $router->post('/api/posts/{id}', function ($params) {
         $updates['content'] = trim($input['content']);
     }
     if (isset($input['scheduled_at'])) {
-        $updates['scheduled_at'] = date('Y-m-d H:i:s', strtotime($input['scheduled_at']));
+        // Convert user's local time to UTC for storage
+        $updates['scheduled_at'] = userTimeToUtc($input['scheduled_at']);
         $updates['status'] = 'scheduled';
     }
     if (isset($input['status'])) {
