@@ -178,13 +178,13 @@
             }
 
             container.innerHTML = posts.map(post => `
-                <div class="post-item">
+                <a href="/post/${post.id}" class="post-item">
                     <div class="post-content">${escapeHtml(post.content.substring(0, 100))}${post.content.length > 100 ? '...' : ''}</div>
                     <div class="post-meta">
                         <span class="post-status status-${post.status}">${getStatusLabel(post.status)}</span>
                         <span class="post-date">${formatDate(post.scheduled_at || post.created_at)}</span>
                     </div>
-                </div>
+                </a>
             `).join('');
         }
 
@@ -225,11 +225,17 @@
 
     <style>
         .post-item {
+            display: block;
             padding: 16px;
             background: #18181b;
             border: 1px solid #27272a;
             border-radius: 8px;
             margin-bottom: 12px;
+            text-decoration: none;
+            transition: border-color 0.2s;
+        }
+        .post-item:hover {
+            border-color: #3f3f46;
         }
         .post-content {
             color: #fff;

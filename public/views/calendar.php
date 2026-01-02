@@ -139,9 +139,9 @@
                 let postsHtml = '';
                 if (dayPosts.length > 0) {
                     postsHtml = dayPosts.slice(0, 3).map(post => `
-                        <div class="calendar-post status-${post.status}" title="${escapeHtml(post.content)}">
+                        <a href="/post/${post.id}" class="calendar-post status-${post.status}" title="${escapeHtml(post.content)}">
                             ${escapeHtml(post.content.substring(0, 20))}${post.content.length > 20 ? '...' : ''}
-                        </div>
+                        </a>
                     `).join('');
                     if (dayPosts.length > 3) {
                         postsHtml += `<div class="calendar-more">+${dayPosts.length - 3} mehr</div>`;
@@ -192,6 +192,7 @@
             gap: 2px;
         }
         .calendar-post {
+            display: block;
             font-size: 11px;
             padding: 2px 4px;
             border-radius: 3px;
@@ -199,6 +200,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
             cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .calendar-post:hover {
+            opacity: 0.8;
         }
         .calendar-post.status-draft { background: #27272a; color: #a1a1aa; }
         .calendar-post.status-scheduled { background: #172554; color: #60a5fa; }

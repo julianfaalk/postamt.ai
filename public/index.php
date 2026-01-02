@@ -748,6 +748,14 @@ $router->get('/settings', function () {
     include __DIR__ . '/views/settings.php';
 });
 
+$router->get('/post/{id}', function ($params) {
+    if (!Auth::check()) {
+        header('Location: /login');
+        exit;
+    }
+    include __DIR__ . '/views/post.php';
+});
+
 // =====================================
 // SEO Landing Pages
 // =====================================
