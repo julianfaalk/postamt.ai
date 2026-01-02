@@ -113,6 +113,16 @@ CREATE TABLE IF NOT EXISTS hashtag_groups (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- Platform Usage Tracking (for API limits)
+CREATE TABLE IF NOT EXISTS platform_usage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    platform TEXT NOT NULL,
+    month TEXT NOT NULL,
+    post_count INTEGER DEFAULT 0,
+    limit_count INTEGER DEFAULT 1500,
+    UNIQUE(platform, month)
+);
+
 -- Waitlist (for landing page)
 CREATE TABLE IF NOT EXISTS waitlist (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

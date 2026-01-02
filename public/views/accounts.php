@@ -40,47 +40,47 @@
             <section class="accounts-section">
                 <h2>Account verbinden</h2>
                 <div class="connect-grid">
-                    <a href="/auth/twitter" class="connect-card">
-                        <div class="connect-icon">𝕏</div>
-                        <div class="connect-info">
-                            <h3>X / Twitter</h3>
-                            <p>Tweets und Threads posten</p>
-                        </div>
-                        <span class="connect-btn">Verbinden</span>
-                    </a>
-
-                    <div class="connect-card disabled">
+                    <a href="/auth/instagram" class="connect-card">
                         <div class="connect-icon">📷</div>
                         <div class="connect-info">
                             <h3>Instagram</h3>
                             <p>Posts, Stories und Reels</p>
                         </div>
-                        <span class="connect-btn">Bald</span>
-                    </div>
+                        <span class="connect-btn">Verbinden</span>
+                    </a>
 
-                    <div class="connect-card disabled">
+                    <a href="/auth/tiktok" class="connect-card">
                         <div class="connect-icon">🎵</div>
                         <div class="connect-info">
                             <h3>TikTok</h3>
                             <p>Videos posten</p>
                         </div>
-                        <span class="connect-btn">Bald</span>
-                    </div>
+                        <span class="connect-btn">Verbinden</span>
+                    </a>
 
-                    <div class="connect-card disabled">
+                    <a href="/auth/linkedin" class="connect-card">
                         <div class="connect-icon">💼</div>
                         <div class="connect-info">
                             <h3>LinkedIn</h3>
                             <p>Professional Content</p>
                         </div>
-                        <span class="connect-btn">Bald</span>
-                    </div>
+                        <span class="connect-btn">Verbinden</span>
+                    </a>
 
-                    <div class="connect-card disabled">
+                    <a href="/auth/youtube" class="connect-card">
                         <div class="connect-icon">▶️</div>
                         <div class="connect-info">
                             <h3>YouTube</h3>
                             <p>Videos und Shorts</p>
+                        </div>
+                        <span class="connect-btn">Verbinden</span>
+                    </a>
+
+                    <div class="connect-card disabled">
+                        <div class="connect-icon">𝕏</div>
+                        <div class="connect-info">
+                            <h3>X / Twitter</h3>
+                            <p>Tweets und Threads</p>
                         </div>
                         <span class="connect-btn">Bald</span>
                     </div>

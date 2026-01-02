@@ -441,6 +441,194 @@ $router->get('/auth/twitter/callback', function () {
 });
 
 // =====================================
+// LinkedIn OAuth
+// =====================================
+
+$router->get('/auth/linkedin', function () {
+    Auth::require();
+
+    if (empty(LINKEDIN_CLIENT_ID) || empty(LINKEDIN_CLIENT_SECRET)) {
+        header('Location: /accounts?error=' . urlencode('LinkedIn API nicht konfiguriert'));
+        exit;
+    }
+
+    $linkedin = new LinkedInOAuth();
+    header('Location: ' . $linkedin->getAuthUrl());
+    exit;
+});
+
+$router->get('/auth/linkedin/callback', function () {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $code = $_GET['code'] ?? '';
+    $state = $_GET['state'] ?? '';
+    $error = $_GET['error'] ?? '';
+
+    if ($error) {
+        header('Location: /accounts?error=' . urlencode('LinkedIn-Verbindung abgelehnt'));
+        exit;
+    }
+
+    $linkedin = new LinkedInOAuth();
+
+    if (!$linkedin->verifyState($state)) {
+        header('Location: /accounts?error=' . urlencode('Ungueltige Anfrage'));
+        exit;
+    }
+
+    try {
+        $account = $linkedin->handleCallback($code, $userId);
+        header('Location: /accounts?success=' . urlencode('LinkedIn verbunden: ' . $account['display_name']));
+    } catch (Exception $e) {
+        error_log('LinkedIn OAuth error: ' . $e->getMessage());
+        header('Location: /accounts?error=' . urlencode('Verbindung fehlgeschlagen: ' . $e->getMessage()));
+    }
+    exit;
+});
+
+// =====================================
+// YouTube OAuth
+// =====================================
+
+$router->get('/auth/youtube', function () {
+    Auth::require();
+
+    if (empty(YOUTUBE_CLIENT_ID) || empty(YOUTUBE_CLIENT_SECRET)) {
+        header('Location: /accounts?error=' . urlencode('YouTube API nicht konfiguriert'));
+        exit;
+    }
+
+    $youtube = new YouTubeOAuth();
+    header('Location: ' . $youtube->getAuthUrl());
+    exit;
+});
+
+$router->get('/auth/youtube/callback', function () {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $code = $_GET['code'] ?? '';
+    $state = $_GET['state'] ?? '';
+    $error = $_GET['error'] ?? '';
+
+    if ($error) {
+        header('Location: /accounts?error=' . urlencode('YouTube-Verbindung abgelehnt'));
+        exit;
+    }
+
+    $youtube = new YouTubeOAuth();
+
+    if (!$youtube->verifyState($state)) {
+        header('Location: /accounts?error=' . urlencode('Ungueltige Anfrage'));
+        exit;
+    }
+
+    try {
+        $account = $youtube->handleCallback($code, $userId);
+        header('Location: /accounts?success=' . urlencode('YouTube verbunden: ' . $account['display_name']));
+    } catch (Exception $e) {
+        error_log('YouTube OAuth error: ' . $e->getMessage());
+        header('Location: /accounts?error=' . urlencode('Verbindung fehlgeschlagen: ' . $e->getMessage()));
+    }
+    exit;
+});
+
+// =====================================
+// Instagram OAuth (Meta)
+// =====================================
+
+$router->get('/auth/instagram', function () {
+    Auth::require();
+
+    if (empty(INSTAGRAM_CLIENT_ID) || empty(INSTAGRAM_CLIENT_SECRET)) {
+        header('Location: /accounts?error=' . urlencode('Instagram API nicht konfiguriert'));
+        exit;
+    }
+
+    $instagram = new InstagramOAuth();
+    header('Location: ' . $instagram->getAuthUrl());
+    exit;
+});
+
+$router->get('/auth/instagram/callback', function () {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $code = $_GET['code'] ?? '';
+    $state = $_GET['state'] ?? '';
+    $error = $_GET['error'] ?? '';
+
+    if ($error) {
+        header('Location: /accounts?error=' . urlencode('Instagram-Verbindung abgelehnt'));
+        exit;
+    }
+
+    $instagram = new InstagramOAuth();
+
+    if (!$instagram->verifyState($state)) {
+        header('Location: /accounts?error=' . urlencode('Ungueltige Anfrage'));
+        exit;
+    }
+
+    try {
+        $account = $instagram->handleCallback($code, $userId);
+        header('Location: /accounts?success=' . urlencode('Instagram verbunden: @' . $account['platform_username']));
+    } catch (Exception $e) {
+        error_log('Instagram OAuth error: ' . $e->getMessage());
+        header('Location: /accounts?error=' . urlencode('Verbindung fehlgeschlagen: ' . $e->getMessage()));
+    }
+    exit;
+});
+
+// =====================================
+// TikTok OAuth
+// =====================================
+
+$router->get('/auth/tiktok', function () {
+    Auth::require();
+
+    if (empty(TIKTOK_CLIENT_KEY) || empty(TIKTOK_CLIENT_SECRET)) {
+        header('Location: /accounts?error=' . urlencode('TikTok API nicht konfiguriert'));
+        exit;
+    }
+
+    $tiktok = new TikTokOAuth();
+    header('Location: ' . $tiktok->getAuthUrl());
+    exit;
+});
+
+$router->get('/auth/tiktok/callback', function () {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $code = $_GET['code'] ?? '';
+    $state = $_GET['state'] ?? '';
+    $error = $_GET['error'] ?? '';
+
+    if ($error) {
+        header('Location: /accounts?error=' . urlencode('TikTok-Verbindung abgelehnt'));
+        exit;
+    }
+
+    $tiktok = new TikTokOAuth();
+
+    if (!$tiktok->verifyState($state)) {
+        header('Location: /accounts?error=' . urlencode('Ungueltige Anfrage'));
+        exit;
+    }
+
+    try {
+        $account = $tiktok->handleCallback($code, $userId);
+        header('Location: /accounts?success=' . urlencode('TikTok verbunden: @' . $account['platform_username']));
+    } catch (Exception $e) {
+        error_log('TikTok OAuth error: ' . $e->getMessage());
+        header('Location: /accounts?error=' . urlencode('Verbindung fehlgeschlagen: ' . $e->getMessage()));
+    }
+    exit;
+});
+
+// =====================================
 // Page Routes
 // =====================================
 
