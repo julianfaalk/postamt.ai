@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postamt – Social Media Management. Einfach.</title>
+    <title>Postamt.ai – Social Media Management. Einfach.</title>
     <meta name="description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten. Fuer Creator die es ernst meinen.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://postamt.ai/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Postamt – Social Media Management. Einfach.">
+    <meta property="og:title" content="Postamt.ai – Social Media Management. Einfach.">
     <meta property="og:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://postamt.ai/">
@@ -18,7 +18,7 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Postamt – Social Media Management. Einfach.">
+    <meta name="twitter:title" content="Postamt.ai  – Social Media Management. Einfach.">
     <meta name="twitter:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X und Bluesky gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
 
     <!-- Preconnect for performance -->
@@ -619,7 +619,7 @@
 <body>
     <nav>
         <div class="container">
-            <a href="/" class="logo">Postamt</a>
+            <a href="/" class="logo">Postamt.ai</a>
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#pricing">Preise</a>
