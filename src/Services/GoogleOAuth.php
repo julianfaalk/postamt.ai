@@ -72,6 +72,11 @@ class GoogleOAuth
      */
     private function exchangeCodeForTokens(string $code): array
     {
+        // Debug: log the credentials being used (remove in production)
+        error_log('Google OAuth - Client ID length: ' . strlen(GOOGLE_CLIENT_ID));
+        error_log('Google OAuth - Client Secret length: ' . strlen(GOOGLE_CLIENT_SECRET));
+        error_log('Google OAuth - Redirect URI: ' . GOOGLE_REDIRECT_URI);
+
         $response = $this->http->post(self::TOKEN_URL, http_build_query([
             'code' => $code,
             'client_id' => GOOGLE_CLIENT_ID,
@@ -83,7 +88,11 @@ class GoogleOAuth
         ]);
 
         if ($response['status'] !== 200) {
-            $error = $response['body']['error_description'] ?? 'Token exchange failed';
+            $error = $response['body']['error_description']
+                ?? $response['body']['error']
+                ?? $response['raw']
+                ?? 'Token exchange failed (HTTP ' . $response['status'] . ')';
+            error_log('Google token exchange failed: ' . print_r($response, true));
             throw new Exception($error);
         }
 
@@ -100,7 +109,8 @@ class GoogleOAuth
         ]);
 
         if ($response['status'] !== 200) {
-            throw new Exception('Benutzerinformationen konnten nicht abgerufen werden');
+            error_log('Google userinfo failed: ' . print_r($response, true));
+            throw new Exception('Benutzerinformationen konnten nicht abgerufen werden (HTTP ' . $response['status'] . ')');
         }
 
         return $response['body'];
