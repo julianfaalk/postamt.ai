@@ -71,7 +71,7 @@ try {
 
         // Get platform assignments
         $platforms = Database::fetchAll(
-            "SELECT pp.*, a.platform, a.access_token, a.refresh_token, a.token_expires_at, a.platform_username
+            "SELECT pp.*, a.platform, a.access_token, a.refresh_token, a.token_expires_at, a.platform_username, a.platform_user_id
              FROM post_platforms pp
              JOIN accounts a ON pp.account_id = a.id
              WHERE pp.post_id = ? AND pp.status = 'pending'",
