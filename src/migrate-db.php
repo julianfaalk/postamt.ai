@@ -42,7 +42,57 @@ $migrations = [
         }
     },
 
-    // Migration 2: Add retry_count to post_platforms
+    // Migration 2: Add missing columns to accounts table
+    'extend_accounts' => function($db) {
+        $columns = $db->query("PRAGMA table_info(accounts)")->fetchAll(PDO::FETCH_ASSOC);
+        $columnNames = array_column($columns, 'name');
+
+        if (!in_array('display_name', $columnNames)) {
+            $db->exec("ALTER TABLE accounts ADD COLUMN display_name TEXT");
+            echo "  - Added display_name column to accounts\n";
+        }
+
+        if (!in_array('avatar_url', $columnNames)) {
+            $db->exec("ALTER TABLE accounts ADD COLUMN avatar_url TEXT");
+            echo "  - Added avatar_url column to accounts\n";
+        }
+
+        if (!in_array('is_active', $columnNames)) {
+            $db->exec("ALTER TABLE accounts ADD COLUMN is_active INTEGER DEFAULT 1");
+            echo "  - Added is_active column to accounts\n";
+        }
+
+        if (!in_array('updated_at', $columnNames)) {
+            $db->exec("ALTER TABLE accounts ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP");
+            echo "  - Added updated_at column to accounts\n";
+        }
+    },
+
+    // Migration 3: Add post_platforms table if not exists
+    'create_post_platforms' => function($db) {
+        $tables = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='post_platforms'")->fetchColumn();
+
+        if (!$tables) {
+            $db->exec("
+                CREATE TABLE post_platforms (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    post_id INTEGER NOT NULL,
+                    account_id INTEGER NOT NULL,
+                    platform_post_id TEXT,
+                    status TEXT DEFAULT 'pending',
+                    error_message TEXT,
+                    published_at DATETIME,
+                    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+                    FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+                )
+            ");
+            $db->exec("CREATE INDEX IF NOT EXISTS idx_post_platforms_post_id ON post_platforms(post_id)");
+            $db->exec("CREATE INDEX IF NOT EXISTS idx_post_platforms_account_id ON post_platforms(account_id)");
+            echo "  - Created post_platforms table\n";
+        }
+    },
+
+    // Migration 4: Add retry_count to post_platforms
     'add_retry_count' => function($db) {
         $columns = $db->query("PRAGMA table_info(post_platforms)")->fetchAll(PDO::FETCH_ASSOC);
         $columnNames = array_column($columns, 'name');
@@ -58,7 +108,7 @@ $migrations = [
         }
     },
 
-    // Migration 3: Add more analytics columns
+    // Migration 5: Add more analytics columns
     'extend_analytics' => function($db) {
         $columns = $db->query("PRAGMA table_info(analytics)")->fetchAll(PDO::FETCH_ASSOC);
         $columnNames = array_column($columns, 'name');
@@ -79,7 +129,7 @@ $migrations = [
         }
     },
 
-    // Migration 4: Add media table
+    // Migration 6: Add media table
     'create_media_table' => function($db) {
         $tables = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='media'")->fetchColumn();
 

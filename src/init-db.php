@@ -40,11 +40,15 @@ CREATE TABLE IF NOT EXISTS accounts (
     platform TEXT NOT NULL,
     platform_user_id TEXT,
     platform_username TEXT,
+    display_name TEXT,
+    avatar_url TEXT,
     access_token TEXT,
     refresh_token TEXT,
     token_expires_at DATETIME,
+    is_active INTEGER DEFAULT 1,
     account_group TEXT DEFAULT 'default',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

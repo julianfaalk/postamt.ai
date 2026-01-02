@@ -3,31 +3,8 @@
  * Application Entry Point
  */
 
-// Error handling
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-
-// Load configuration
-require_once __DIR__ . '/../src/config.php';
-
-// Autoload classes
-spl_autoload_register(function ($class) {
-    $paths = [
-        __DIR__ . '/../src/Lib/' . $class . '.php',
-        __DIR__ . '/../src/Controllers/' . $class . '.php',
-        __DIR__ . '/../src/Models/' . $class . '.php',
-        __DIR__ . '/../src/Services/' . $class . '.php',
-        __DIR__ . '/../src/Publishers/' . $class . '.php',
-        __DIR__ . '/../src/Validators/' . $class . '.php',
-    ];
-
-    foreach ($paths as $path) {
-        if (file_exists($path)) {
-            require_once $path;
-            return;
-        }
-    }
-});
+// Load application bootstrap
+require_once __DIR__ . '/../src/bootstrap.php';
 
 // Initialize session
 Auth::start();
@@ -214,6 +191,253 @@ $router->get('/auth/google/callback', function () {
         header('Location: /login?error=' . urlencode('Anmeldung fehlgeschlagen: ' . $e->getMessage()));
         exit;
     }
+});
+
+// =====================================
+// Posts API
+// =====================================
+
+// Create post
+$router->post('/api/posts', function () {
+    Auth::require();
+    $userId = Auth::userId();
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    $content = trim($input['content'] ?? '');
+    if (empty($content)) {
+        http_response_code(400);
+        return ['error' => 'Post-Inhalt darf nicht leer sein'];
+    }
+
+    $scheduledAt = null;
+    $status = 'draft';
+
+    if (!empty($input['scheduled_at'])) {
+        $scheduledAt = date('Y-m-d H:i:s', strtotime($input['scheduled_at']));
+        $status = 'scheduled';
+    } elseif (!empty($input['publish_now'])) {
+        $status = 'queued';
+        $scheduledAt = date('Y-m-d H:i:s');
+    }
+
+    $postId = Database::insert('posts', [
+        'user_id' => $userId,
+        'content' => $content,
+        'media_urls' => json_encode($input['media'] ?? []),
+        'status' => $status,
+        'scheduled_at' => $scheduledAt,
+        'created_at' => date('Y-m-d H:i:s'),
+        'updated_at' => date('Y-m-d H:i:s'),
+    ]);
+
+    // Add platform assignments
+    $platforms = $input['platforms'] ?? [];
+    foreach ($platforms as $accountId) {
+        Database::insert('post_platforms', [
+            'post_id' => $postId,
+            'account_id' => (int)$accountId,
+            'status' => 'pending',
+        ]);
+    }
+
+    $post = Database::fetch('SELECT * FROM posts WHERE id = ?', [$postId]);
+    return ['success' => true, 'post' => $post];
+});
+
+// List posts
+$router->get('/api/posts', function () {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $status = $_GET['status'] ?? null;
+    $limit = min((int)($_GET['limit'] ?? 50), 100);
+    $offset = (int)($_GET['offset'] ?? 0);
+
+    $sql = 'SELECT * FROM posts WHERE user_id = ?';
+    $params = [$userId];
+
+    if ($status) {
+        $sql .= ' AND status = ?';
+        $params[] = $status;
+    }
+
+    $sql .= ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+    $params[] = $limit;
+    $params[] = $offset;
+
+    $posts = Database::fetchAll($sql, $params);
+
+    return ['posts' => $posts];
+});
+
+// Get single post
+$router->get('/api/posts/{id}', function ($params) {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $post = Database::fetch(
+        'SELECT * FROM posts WHERE id = ? AND user_id = ?',
+        [$params['id'], $userId]
+    );
+
+    if (!$post) {
+        http_response_code(404);
+        return ['error' => 'Post nicht gefunden'];
+    }
+
+    // Get platform assignments
+    $post['platforms'] = Database::fetchAll(
+        'SELECT pp.*, a.platform, a.platform_username
+         FROM post_platforms pp
+         JOIN accounts a ON pp.account_id = a.id
+         WHERE pp.post_id = ?',
+        [$post['id']]
+    );
+
+    return ['post' => $post];
+});
+
+// Update post
+$router->post('/api/posts/{id}', function ($params) {
+    Auth::require();
+    $userId = Auth::userId();
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    $post = Database::fetch(
+        'SELECT * FROM posts WHERE id = ? AND user_id = ?',
+        [$params['id'], $userId]
+    );
+
+    if (!$post) {
+        http_response_code(404);
+        return ['error' => 'Post nicht gefunden'];
+    }
+
+    if (in_array($post['status'], ['publishing', 'published'])) {
+        http_response_code(400);
+        return ['error' => 'Post kann nicht mehr bearbeitet werden'];
+    }
+
+    $updates = ['updated_at' => date('Y-m-d H:i:s')];
+
+    if (isset($input['content'])) {
+        $updates['content'] = trim($input['content']);
+    }
+    if (isset($input['scheduled_at'])) {
+        $updates['scheduled_at'] = date('Y-m-d H:i:s', strtotime($input['scheduled_at']));
+        $updates['status'] = 'scheduled';
+    }
+    if (isset($input['status'])) {
+        $updates['status'] = $input['status'];
+    }
+
+    Database::update('posts', $updates, 'id = ?', [$params['id']]);
+
+    $post = Database::fetch('SELECT * FROM posts WHERE id = ?', [$params['id']]);
+    return ['success' => true, 'post' => $post];
+});
+
+// Delete post
+$router->post('/api/posts/{id}/delete', function ($params) {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $post = Database::fetch(
+        'SELECT * FROM posts WHERE id = ? AND user_id = ?',
+        [$params['id'], $userId]
+    );
+
+    if (!$post) {
+        http_response_code(404);
+        return ['error' => 'Post nicht gefunden'];
+    }
+
+    Database::delete('posts', 'id = ?', [$params['id']]);
+    return ['success' => true];
+});
+
+// =====================================
+// Accounts API
+// =====================================
+
+// List connected accounts
+$router->get('/api/accounts', function () {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $accounts = Database::fetchAll(
+        'SELECT id, platform, platform_username, display_name, avatar_url, is_active, created_at
+         FROM accounts WHERE user_id = ? ORDER BY created_at DESC',
+        [$userId]
+    );
+
+    return ['accounts' => $accounts];
+});
+
+// Disconnect account
+$router->post('/api/accounts/{id}/disconnect', function ($params) {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $account = Database::fetch(
+        'SELECT * FROM accounts WHERE id = ? AND user_id = ?',
+        [$params['id'], $userId]
+    );
+
+    if (!$account) {
+        http_response_code(404);
+        return ['error' => 'Account nicht gefunden'];
+    }
+
+    Database::delete('accounts', 'id = ?', [$params['id']]);
+    return ['success' => true];
+});
+
+// =====================================
+// Twitter/X OAuth
+// =====================================
+
+$router->get('/auth/twitter', function () {
+    Auth::require();
+
+    if (empty(TWITTER_CLIENT_ID) || empty(TWITTER_CLIENT_SECRET)) {
+        header('Location: /accounts?error=' . urlencode('Twitter API nicht konfiguriert'));
+        exit;
+    }
+
+    $twitter = new TwitterOAuth();
+    header('Location: ' . $twitter->getAuthUrl());
+    exit;
+});
+
+$router->get('/auth/twitter/callback', function () {
+    Auth::require();
+    $userId = Auth::userId();
+
+    $code = $_GET['code'] ?? '';
+    $state = $_GET['state'] ?? '';
+    $error = $_GET['error'] ?? '';
+
+    if ($error) {
+        header('Location: /accounts?error=' . urlencode('Twitter-Verbindung abgelehnt'));
+        exit;
+    }
+
+    $twitter = new TwitterOAuth();
+
+    if (!$twitter->verifyState($state)) {
+        header('Location: /accounts?error=' . urlencode('Ungueltige Anfrage'));
+        exit;
+    }
+
+    try {
+        $account = $twitter->handleCallback($code, $userId);
+        header('Location: /accounts?success=' . urlencode('Twitter verbunden: @' . $account['platform_username']));
+    } catch (Exception $e) {
+        error_log('Twitter OAuth error: ' . $e->getMessage());
+        header('Location: /accounts?error=' . urlencode('Verbindung fehlgeschlagen: ' . $e->getMessage()));
+    }
+    exit;
 });
 
 // =====================================

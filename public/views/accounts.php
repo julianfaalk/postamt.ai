@@ -20,59 +20,305 @@
                 </div>
             </header>
 
-            <div class="account-grid" id="accounts-grid">
-                <!-- Connected accounts will be loaded here -->
+            <!-- Messages -->
+            <?php if (!empty($_GET['success'])): ?>
+            <div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
+            <?php endif; ?>
+            <?php if (!empty($_GET['error'])): ?>
+            <div class="alert alert-error"><?= htmlspecialchars($_GET['error']) ?></div>
+            <?php endif; ?>
 
-                <div class="connect-card" onclick="connectAccount('twitter')">
-                    <div class="connect-icon">&#120143;</div>
-                    <h3>X / Twitter verbinden</h3>
-                    <p>Poste Tweets und Threads</p>
+            <!-- Connected Accounts -->
+            <section class="accounts-section" id="connected-accounts">
+                <h2>Verbundene Accounts</h2>
+                <div id="accounts-list">
+                    <p class="loading-text">Lade Accounts...</p>
                 </div>
+            </section>
 
-                <div class="connect-card" onclick="connectAccount('instagram')">
-                    <div class="connect-icon">&#128247;</div>
-                    <h3>Instagram verbinden</h3>
-                    <p>Posts, Stories und Reels</p>
+            <!-- Connect New Account -->
+            <section class="accounts-section">
+                <h2>Account verbinden</h2>
+                <div class="connect-grid">
+                    <a href="/auth/twitter" class="connect-card">
+                        <div class="connect-icon">𝕏</div>
+                        <div class="connect-info">
+                            <h3>X / Twitter</h3>
+                            <p>Tweets und Threads posten</p>
+                        </div>
+                        <span class="connect-btn">Verbinden</span>
+                    </a>
+
+                    <div class="connect-card disabled">
+                        <div class="connect-icon">📷</div>
+                        <div class="connect-info">
+                            <h3>Instagram</h3>
+                            <p>Posts, Stories und Reels</p>
+                        </div>
+                        <span class="connect-btn">Bald</span>
+                    </div>
+
+                    <div class="connect-card disabled">
+                        <div class="connect-icon">🎵</div>
+                        <div class="connect-info">
+                            <h3>TikTok</h3>
+                            <p>Videos posten</p>
+                        </div>
+                        <span class="connect-btn">Bald</span>
+                    </div>
+
+                    <div class="connect-card disabled">
+                        <div class="connect-icon">💼</div>
+                        <div class="connect-info">
+                            <h3>LinkedIn</h3>
+                            <p>Professional Content</p>
+                        </div>
+                        <span class="connect-btn">Bald</span>
+                    </div>
+
+                    <div class="connect-card disabled">
+                        <div class="connect-icon">▶️</div>
+                        <div class="connect-info">
+                            <h3>YouTube</h3>
+                            <p>Videos und Shorts</p>
+                        </div>
+                        <span class="connect-btn">Bald</span>
+                    </div>
                 </div>
-
-                <div class="connect-card" onclick="connectAccount('tiktok')">
-                    <div class="connect-icon">&#127925;</div>
-                    <h3>TikTok verbinden</h3>
-                    <p>Videos posten</p>
-                </div>
-
-                <div class="connect-card" onclick="connectAccount('linkedin')">
-                    <div class="connect-icon">&#128188;</div>
-                    <h3>LinkedIn verbinden</h3>
-                    <p>Professional Content</p>
-                </div>
-
-                <div class="connect-card" onclick="connectAccount('youtube')">
-                    <div class="connect-icon">&#9654;&#65039;</div>
-                    <h3>YouTube verbinden</h3>
-                    <p>Videos und Shorts</p>
-                </div>
-            </div>
-
-            <div style="margin-top: 40px; padding: 24px; background: #18181b; border: 1px solid #27272a; border-radius: 16px;">
-                <h3 style="margin-bottom: 12px;">Hinweis</h3>
-                <p style="color: #a1a1aa; font-size: 14px;">
-                    Die Verbindung zu Social Media Plattformen erfordert API-Zugangsdaten.
-                    Diese werden in einer spaeteren Version hinzugefuegt.
-                    Aktuell ist dies eine Demo-Ansicht.
-                </p>
-            </div>
+            </section>
         </main>
     </div>
 
+    <style>
+        .accounts-section {
+            margin-bottom: 40px;
+        }
+        .accounts-section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .alert-success {
+            background: #052e16;
+            color: #4ade80;
+            border: 1px solid #166534;
+        }
+        .alert-error {
+            background: #450a0a;
+            color: #f87171;
+            border: 1px solid #991b1b;
+        }
+        .loading-text {
+            color: #71717a;
+            font-size: 14px;
+        }
+        .no-accounts-msg {
+            color: #71717a;
+            font-size: 14px;
+            padding: 24px;
+            background: #18181b;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .connected-account {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        .connected-account .account-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #27272a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .connected-account .account-info {
+            flex: 1;
+        }
+        .connected-account .account-name {
+            font-weight: 600;
+            color: #fff;
+        }
+        .connected-account .account-username {
+            font-size: 13px;
+            color: #a1a1aa;
+        }
+        .connected-account .account-platform {
+            font-size: 12px;
+            color: #71717a;
+            text-transform: uppercase;
+        }
+        .disconnect-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            color: #f87171;
+            background: transparent;
+            border: 1px solid #991b1b;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .disconnect-btn:hover {
+            background: #450a0a;
+        }
+        .connect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .connect-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .connect-card:not(.disabled):hover {
+            border-color: #3f3f46;
+            background: #1f1f23;
+        }
+        .connect-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .connect-card .connect-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #27272a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .connect-card .connect-info {
+            flex: 1;
+        }
+        .connect-card .connect-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .connect-card .connect-info p {
+            font-size: 13px;
+            color: #71717a;
+        }
+        .connect-card .connect-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+            background: #27272a;
+            border-radius: 6px;
+        }
+        .connect-card:not(.disabled):hover .connect-btn {
+            background: #3f3f46;
+        }
+    </style>
+
     <script>
-        function connectAccount(platform) {
-            alert('Verbindung zu ' + platform + ' wird bald verfuegbar sein!');
+        async function loadAccounts() {
+            try {
+                const response = await fetch('/api/accounts');
+                const data = await response.json();
+                renderAccounts(data.accounts || []);
+            } catch (err) {
+                console.error('Failed to load accounts:', err);
+                document.getElementById('accounts-list').innerHTML = `
+                    <p class="no-accounts-msg">Fehler beim Laden der Accounts</p>
+                `;
+            }
         }
 
-        async function logout() {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.href = '/';
+        function renderAccounts(accounts) {
+            const container = document.getElementById('accounts-list');
+
+            if (accounts.length === 0) {
+                container.innerHTML = `
+                    <p class="no-accounts-msg">Noch keine Accounts verbunden. Verbinde deinen ersten Account!</p>
+                `;
+                return;
+            }
+
+            container.innerHTML = accounts.map(account => `
+                <div class="connected-account">
+                    <div class="account-icon">${getPlatformIcon(account.platform)}</div>
+                    <div class="account-info">
+                        <div class="account-name">${account.display_name || account.platform_username}</div>
+                        <div class="account-username">@${account.platform_username}</div>
+                        <div class="account-platform">${getPlatformName(account.platform)}</div>
+                    </div>
+                    <button class="disconnect-btn" onclick="disconnectAccount(${account.id})">Trennen</button>
+                </div>
+            `).join('');
+        }
+
+        function getPlatformIcon(platform) {
+            const icons = {
+                twitter: '𝕏',
+                instagram: '📷',
+                tiktok: '🎵',
+                linkedin: '💼',
+                youtube: '▶️'
+            };
+            return icons[platform] || '📱';
+        }
+
+        function getPlatformName(platform) {
+            const names = {
+                twitter: 'X / Twitter',
+                instagram: 'Instagram',
+                tiktok: 'TikTok',
+                linkedin: 'LinkedIn',
+                youtube: 'YouTube'
+            };
+            return names[platform] || platform;
+        }
+
+        async function disconnectAccount(id) {
+            if (!confirm('Account wirklich trennen?')) return;
+
+            try {
+                const response = await fetch(`/api/accounts/${id}/disconnect`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    loadAccounts();
+                } else {
+                    alert('Fehler beim Trennen des Accounts');
+                }
+            } catch (err) {
+                alert('Verbindungsfehler');
+            }
+        }
+
+        // Initialize
+        loadAccounts();
+
+        // Clear URL params after showing message
+        if (window.location.search) {
+            history.replaceState({}, document.title, window.location.pathname);
         }
     </script>
 
