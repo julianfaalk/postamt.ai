@@ -109,21 +109,43 @@ class LinkedInOAuth
             'isReshareDisabledByAuthor' => false,
         ];
 
-        $response = $this->http->post(self::POST_URL, $postData, [
-            'Authorization' => 'Bearer ' . $accessToken,
-            'Content-Type' => 'application/json',
-            'LinkedIn-Version' => '202401',
-            'X-Restli-Protocol-Version' => '2.0.0',
+        // Use direct curl for LinkedIn's strict API requirements
+        $ch = curl_init(self::POST_URL);
+
+        $jsonBody = json_encode($postData, JSON_UNESCAPED_UNICODE);
+
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $jsonBody,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer ' . $accessToken,
+                'Content-Type: application/json',
+                'LinkedIn-Version: 202401',
+                'X-Restli-Protocol-Version: 2.0.0',
+            ],
         ]);
 
-        if ($response['status'] !== 201 && $response['status'] !== 200) {
-            $error = $response['body']['message'] ?? $response['body']['error'] ?? 'LinkedIn Post konnte nicht erstellt werden';
-            error_log('LinkedIn post failed: ' . print_r($response, true));
-            throw new Exception($error);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+
+        if ($error) {
+            throw new Exception('LinkedIn API error: ' . $error);
+        }
+
+        $body = json_decode($response, true);
+
+        error_log('LinkedIn API response: HTTP ' . $httpCode . ' - ' . $response);
+
+        if ($httpCode !== 201 && $httpCode !== 200) {
+            $errorMsg = $body['message'] ?? $body['error'] ?? $response ?? 'LinkedIn Post konnte nicht erstellt werden';
+            throw new Exception($errorMsg);
         }
 
         return [
-            'id' => $response['body']['id'] ?? $response['headers']['x-restli-id'] ?? null,
+            'id' => $body['id'] ?? null,
         ];
     }
 
