@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postamt.ai – Social Media Management. Einfach.</title>
-    <meta name="description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig. Plane deine Social Media Woche in 15 Minuten. Fuer Creator die es ernst meinen.">
+    <meta name="description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky, Snapchat, WhatsApp und Telegram gleichzeitig. Plane deine Social Media Woche in 15 Minuten. Fuer Creator die es ernst meinen.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://postamt.ai/">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Postamt.ai – Social Media Management. Einfach.">
-    <meta property="og:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
+    <meta property="og:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky, Snapchat, WhatsApp und Telegram gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://postamt.ai/">
     <meta property="og:site_name" content="Postamt">
@@ -19,7 +19,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Postamt.ai  – Social Media Management. Einfach.">
-    <meta name="twitter:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
+    <meta name="twitter:description" content="Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky, Snapchat, WhatsApp und Telegram gleichzeitig. Plane deine Social Media Woche in 15 Minuten.">
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -295,6 +295,65 @@
         }
         .platform.snapchat .platform-icon svg {
             fill: #000;
+        }
+
+        /* WhatsApp - green */
+        .platform.whatsapp .platform-icon {
+            background: #25D366;
+        }
+        .platform.whatsapp .platform-icon::before {
+            background: #25D366;
+        }
+        .platform.whatsapp .platform-icon svg {
+            fill: #fff;
+        }
+
+        /* Telegram - blue */
+        .platform.telegram .platform-icon {
+            background: #0088cc;
+        }
+        .platform.telegram .platform-icon::before {
+            background: #0088cc;
+        }
+        .platform.telegram .platform-icon svg {
+            fill: #fff;
+        }
+
+        /* Butterfly fly-in animation */
+        .platform {
+            opacity: 0;
+        }
+
+        .platform.flying {
+            position: fixed;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        .platform.flying .platform-icon {
+            animation: flutter 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes flutter {
+            0% { transform: rotate(-8deg) scale(1.1); }
+            100% { transform: rotate(8deg) scale(1.15); }
+        }
+
+        .platform.landed {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .platform.landed .platform-icon {
+            animation: landBounce 0.4s ease-out;
+        }
+
+        @keyframes landBounce {
+            0% { transform: scale(1.2); }
+            50% { transform: scale(0.9); }
+            75% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         /* Section */
@@ -594,7 +653,7 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Postamt",
-        "description": "Social Media Management Tool - Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky und Snapchat gleichzeitig.",
+        "description": "Social Media Management Tool - Poste auf Instagram, TikTok, YouTube, LinkedIn, X, Bluesky, Snapchat, WhatsApp und Telegram gleichzeitig.",
         "url": "https://postamt.ai",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
@@ -693,9 +752,21 @@
                 </div>
                 <div class="platform snapchat">
                     <div class="platform-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.12-.063-.18-.01-.082.005-.165.03-.24.029-.27.209-.479.449-.524 3.28-.54 4.736-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-.732-.254-1.303-.629-1.303-1.094 0-.435.466-.824.964-.869.135-.015.27-.029.405-.029.12 0 .255.015.375.045.359.12.659.27.959.359.105.031.194.061.27.061.194 0 .299-.104.329-.194-.012-.18-.022-.359-.034-.539l-.003-.06c-.104-1.627-.225-3.654.299-4.848C7.754 1.083 11.101.793 12.092.793h.114z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12.166 0c-1.903.006-3.612.736-4.885 1.97C5.932 3.307 5.322 5.214 5.322 7.2v.822c-.042.006-.09.006-.132.006-.558 0-1.122.222-1.476.624a1.64 1.64 0 0 0-.348 1.404c.162.702.768 1.146 1.476 1.248.006.054.018.108.024.162.006.048.012.102.012.156.036.366.102.738.186 1.104.018.066.036.132.054.198a8.21 8.21 0 0 0 1.02 2.328c.678 1.068 1.614 1.944 2.76 2.514.102.048.198.102.306.15.174.09.354.168.54.24l.006.012c-.012.396-.078.792-.24 1.152a.943.943 0 0 1-.186.27c-.312.33-.81.486-1.296.618a8.89 8.89 0 0 0-.492.132 3.391 3.391 0 0 0-.708.288c-.456.258-.78.642-.876 1.134-.06.312-.024.636.108.936.264.588.816.996 1.44 1.218.624.228 1.308.306 1.986.306.462 0 .924-.036 1.362-.078.27-.024.534-.054.798-.054.312 0 .606.036.906.126.39.114.756.312 1.134.522.516.282 1.062.588 1.698.798a5.63 5.63 0 0 0 1.71.27c.594 0 1.176-.09 1.71-.27.636-.21 1.182-.516 1.698-.798.378-.21.744-.408 1.134-.522.3-.09.594-.126.906-.126.264 0 .528.03.798.054.438.042.9.078 1.362.078.678 0 1.362-.078 1.986-.306.624-.222 1.176-.63 1.44-1.218a1.54 1.54 0 0 0 .108-.936c-.096-.492-.42-.876-.876-1.134a3.391 3.391 0 0 0-.708-.288 8.89 8.89 0 0 0-.492-.132c-.486-.132-.984-.288-1.296-.618a.943.943 0 0 1-.186-.27c-.162-.36-.228-.756-.24-1.152l.006-.012c.186-.072.366-.15.54-.24.108-.048.204-.102.306-.15 1.146-.57 2.082-1.446 2.76-2.514a8.21 8.21 0 0 0 1.02-2.328c.018-.066.036-.132.054-.198.084-.366.15-.738.186-1.104 0-.054.006-.108.012-.156.006-.054.018-.108.024-.162.708-.102 1.314-.546 1.476-1.248a1.64 1.64 0 0 0-.348-1.404c-.354-.402-.918-.624-1.476-.624-.042 0-.09 0-.132.006V7.2c0-1.986-.61-3.893-1.959-5.23C15.778.736 14.069.006 12.166 0z"/></svg>
                     </div>
                     <span>Snapchat</span>
+                </div>
+                <div class="platform whatsapp">
+                    <div class="platform-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </div>
+                    <span>WhatsApp</span>
+                </div>
+                <div class="platform telegram">
+                    <div class="platform-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    </div>
+                    <span>Telegram</span>
                 </div>
             </div>
         </section>
@@ -881,6 +952,113 @@
         });
 
         loadWaitlistCount();
+
+        // Butterfly fly-in animation for social icons
+        function animatePlatforms() {
+            const platforms = document.querySelectorAll('.platform');
+            const platformsContainer = document.querySelector('.platforms');
+
+            if (!platformsContainer) return;
+
+            // Store original positions
+            const originalPositions = [];
+            platforms.forEach((platform, index) => {
+                const rect = platform.getBoundingClientRect();
+                originalPositions.push({
+                    left: rect.left + window.scrollX,
+                    top: rect.top + window.scrollY,
+                    width: rect.width,
+                    height: rect.height
+                });
+            });
+
+            // Generate random starting positions from edges of screen
+            platforms.forEach((platform, index) => {
+                const edge = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+                let startX, startY;
+
+                switch(edge) {
+                    case 0: // top
+                        startX = Math.random() * window.innerWidth;
+                        startY = -100;
+                        break;
+                    case 1: // right
+                        startX = window.innerWidth + 100;
+                        startY = Math.random() * window.innerHeight;
+                        break;
+                    case 2: // bottom
+                        startX = Math.random() * window.innerWidth;
+                        startY = window.innerHeight + 100;
+                        break;
+                    case 3: // left
+                        startX = -100;
+                        startY = Math.random() * window.innerHeight;
+                        break;
+                }
+
+                // Set initial flying position
+                platform.classList.add('flying');
+                platform.style.left = startX + 'px';
+                platform.style.top = startY + 'px';
+
+                // Animate to destination with bezier curve path
+                const delay = index * 150 + Math.random() * 200;
+                const duration = 1500 + Math.random() * 500;
+
+                setTimeout(() => {
+                    animateToDestination(platform, startX, startY, originalPositions[index], duration, index);
+                }, delay);
+            });
+        }
+
+        function animateToDestination(platform, startX, startY, dest, duration, index) {
+            const startTime = performance.now();
+
+            // Create waypoints for curved butterfly-like path
+            const midX1 = startX + (dest.left - startX) * 0.3 + (Math.random() - 0.5) * 200;
+            const midY1 = startY + (dest.top - startY) * 0.3 + (Math.random() - 0.5) * 150;
+            const midX2 = startX + (dest.left - startX) * 0.7 + (Math.random() - 0.5) * 150;
+            const midY2 = startY + (dest.top - startY) * 0.7 + (Math.random() - 0.5) * 100;
+
+            function bezier(t, p0, p1, p2, p3) {
+                const u = 1 - t;
+                return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3;
+            }
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                let progress = Math.min(elapsed / duration, 1);
+
+                // Ease out cubic for smooth landing
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                const x = bezier(eased, startX, midX1, midX2, dest.left);
+                const y = bezier(eased, startY, midY1, midY2, dest.top);
+
+                platform.style.left = x + 'px';
+                platform.style.top = y + 'px';
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    // Landing complete
+                    platform.classList.remove('flying');
+                    platform.classList.add('landed');
+                    platform.style.left = '';
+                    platform.style.top = '';
+                    platform.style.position = '';
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation when page loads and platforms section is visible
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', animatePlatforms);
+        } else {
+            animatePlatforms();
+        }
     </script>
 
     <!-- 100% privacy-first analytics -->
