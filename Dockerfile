@@ -28,6 +28,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
     && chmod -R 777 /var/www/html/data \
     && chmod -R 777 /var/www/html/storage \
+    && rm -f /var/www/html/data/database.sqlite \
     && php /var/www/html/src/init-db.php \
     && chown -R www-data:www-data /var/www/html/data
 
