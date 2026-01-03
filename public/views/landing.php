@@ -112,6 +112,84 @@
             color: #111;
         }
 
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: #111;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            z-index: 1000;
+            flex-direction: column;
+            padding: 20px 24px;
+        }
+
+        .mobile-nav.open {
+            display: flex;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-nav-close svg {
+            width: 24px;
+            height: 24px;
+            stroke: #111;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .mobile-nav-links a {
+            font-size: 18px;
+            font-weight: 500;
+            color: #111;
+            text-decoration: none;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .mobile-nav-links .btn-login {
+            display: inline-block;
+            text-align: center;
+            padding: 14px 24px;
+            background: #111;
+            color: #fff;
+            border-radius: 8px;
+            border: none;
+            margin-top: 16px;
+        }
+
         /* Hero */
         .hero {
             padding: 80px 0 60px;
@@ -525,6 +603,10 @@
                 display: none;
             }
 
+            .mobile-menu-btn {
+                display: block;
+            }
+
             h1 {
                 font-size: 32px;
             }
@@ -716,8 +798,34 @@
                 <a href="#pricing">Preise</a>
                 <a href="/login">Login</a>
             </div>
+            <button class="mobile-menu-btn" onclick="openMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-header">
+            <a href="/" class="logo"><span class="logo-emoji">🏤</span> Postamt.ai</a>
+            <button class="mobile-nav-close" onclick="closeMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#features" onclick="closeMobileMenu()">Features</a>
+            <a href="#pricing" onclick="closeMobileMenu()">Preise</a>
+            <a href="/login" class="btn-login">Login</a>
+            <a href="/register" class="btn-login" style="background: #fff; color: #111; border: 1px solid #ddd;">Registrieren</a>
+        </div>
+    </div>
 
     <!-- SVG Gradient definitions -->
     <svg width="0" height="0" style="position:absolute">
@@ -972,6 +1080,17 @@
         });
 
         loadWaitlistCount();
+
+        // Mobile menu functions
+        function openMobileMenu() {
+            document.getElementById('mobile-nav').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobile-nav').classList.remove('open');
+            document.body.style.overflow = '';
+        }
 
         // Smooth fly-in animation for social icons
         function animatePlatforms() {
