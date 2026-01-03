@@ -476,6 +476,7 @@
                 const data = await response.json();
                 accounts = data.accounts || [];
                 renderAccountSelect();
+                updatePreview(); // Show preview immediately after accounts load
             } catch (err) {
                 console.error('Failed to load accounts:', err);
                 document.getElementById('platform-select').innerHTML = `
@@ -601,35 +602,37 @@
             const content = document.getElementById('content').value.trim();
             const selectedPlatforms = getSelectedPlatforms();
 
-            if (selectedPlatforms.length === 0 || !content) {
-                previewEl.innerHTML = '<p class="preview-placeholder">Waehle Plattformen und schreibe Text um eine Vorschau zu sehen.</p>';
+            if (selectedPlatforms.length === 0) {
+                previewEl.innerHTML = '<p class="preview-placeholder">Waehle mindestens eine Plattform aus.</p>';
                 return;
             }
 
             const account = selectedPlatforms.find(p => p.platform === activePreviewPlatform) || selectedPlatforms[0];
             const mediaUrl = getMediaPreviewUrl();
             const isVideo = mediaFiles.length > 0 && mediaFiles[0].type.startsWith('video/');
+            const displayContent = content || 'Dein Text erscheint hier...';
 
             switch (account.platform) {
                 case 'linkedin':
-                    previewEl.innerHTML = renderLinkedInMockup(content, account, mediaUrl, isVideo);
+                    previewEl.innerHTML = renderLinkedInMockup(displayContent, account, mediaUrl, isVideo, !content);
                     break;
                 case 'twitter':
-                    previewEl.innerHTML = renderTwitterMockup(content, account, mediaUrl, isVideo);
+                    previewEl.innerHTML = renderTwitterMockup(displayContent, account, mediaUrl, isVideo, !content);
                     break;
                 case 'instagram':
-                    previewEl.innerHTML = renderInstagramMockup(content, account, mediaUrl, isVideo);
+                    previewEl.innerHTML = renderInstagramMockup(displayContent, account, mediaUrl, isVideo, !content);
                     break;
                 default:
-                    previewEl.innerHTML = `<div class="preview-content">${escapeHtml(content)}</div>`;
+                    previewEl.innerHTML = `<div class="preview-content">${escapeHtml(displayContent)}</div>`;
             }
         }
 
-        function renderLinkedInMockup(content, account, mediaUrl, isVideo) {
+        function renderLinkedInMockup(content, account, mediaUrl, isVideo, isPlaceholder = false) {
             const initials = (account.display_name || account.platform_username || 'U').substring(0, 2).toUpperCase();
             const avatarHtml = account.avatar_url
                 ? `<img src="${escapeHtml(account.avatar_url)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
                 : initials;
+            const textStyle = isPlaceholder ? 'color: #71717a; font-style: italic;' : '';
             return `
                 <div class="post-mockup linkedin-mockup">
                     <div class="post-header">
@@ -639,7 +642,7 @@
                             <div class="meta">Gerade eben</div>
                         </div>
                     </div>
-                    <div class="post-text">${escapeHtml(content)}</div>
+                    <div class="post-text" style="${textStyle}">${escapeHtml(content)}</div>
                     ${mediaUrl ? (isVideo
                         ? `<video class="post-media" src="${mediaUrl}" controls></video>`
                         : `<img class="post-media" src="${mediaUrl}" alt="">`)
@@ -653,10 +656,11 @@
             `;
         }
 
-        function renderTwitterMockup(content, account, mediaUrl, isVideo) {
+        function renderTwitterMockup(content, account, mediaUrl, isVideo, isPlaceholder = false) {
             const avatarStyle = account.avatar_url
                 ? `background-image:url('${escapeHtml(account.avatar_url)}');background-size:cover;background-position:center;`
                 : '';
+            const textStyle = isPlaceholder ? 'color: #71767b; font-style: italic;' : '';
             return `
                 <div class="post-mockup twitter-mockup">
                     <div class="post-header">
@@ -666,7 +670,7 @@
                             <span class="handle">@${escapeHtml(account.platform_username)}</span>
                         </div>
                     </div>
-                    <div class="post-text">${escapeHtml(content)}</div>
+                    <div class="post-text" style="${textStyle}">${escapeHtml(content)}</div>
                     ${mediaUrl ? (isVideo
                         ? `<video class="post-media" src="${mediaUrl}" controls></video>`
                         : `<img class="post-media" src="${mediaUrl}" alt="">`)
@@ -681,10 +685,11 @@
             `;
         }
 
-        function renderInstagramMockup(content, account, mediaUrl, isVideo) {
+        function renderInstagramMockup(content, account, mediaUrl, isVideo, isPlaceholder = false) {
             const avatarStyle = account.avatar_url
                 ? `background-image:url('${escapeHtml(account.avatar_url)}');background-size:cover;background-position:center;`
                 : '';
+            const textStyle = isPlaceholder ? 'color: #71717a; font-style: italic;' : '';
             return `
                 <div class="post-mockup instagram-mockup">
                     <div class="post-header">
@@ -703,7 +708,7 @@
                         <span class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
                         <span class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                     </div>
-                    <div class="post-text"><span class="username">${escapeHtml(account.platform_username)}</span>${escapeHtml(content)}</div>
+                    <div class="post-text"><span class="username">${escapeHtml(account.platform_username)}</span><span style="${textStyle}">${escapeHtml(content)}</span></div>
                 </div>
             `;
         }
