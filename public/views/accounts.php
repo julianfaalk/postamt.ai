@@ -253,6 +253,7 @@
         .connect-card.disabled {
             cursor: not-allowed;
             position: relative;
+            pointer-events: none;
         }
         .connect-card.disabled::after {
             content: '';
