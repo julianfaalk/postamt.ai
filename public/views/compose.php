@@ -72,23 +72,15 @@
                     </div>
 
                     <div class="compose-sidebar">
-                        <div class="sidebar-card">
-                            <h3>Vorschau</h3>
+                        <div class="sidebar-card preview-card">
+                            <div class="preview-tabs" id="preview-tabs">
+                                <!-- Tabs will be rendered by JS based on selected platforms -->
+                            </div>
                             <div id="preview-container">
                                 <p class="preview-placeholder">
-                                    Starte mit dem Schreiben um eine Vorschau zu sehen.
+                                    Waehle Plattformen und schreibe Text um eine Vorschau zu sehen.
                                 </p>
                             </div>
-                        </div>
-
-                        <div class="sidebar-card">
-                            <h3>Tipps</h3>
-                            <ul class="tips-list">
-                                <li>Beginne mit einem starken Hook</li>
-                                <li>Halte es kurz und praegnant</li>
-                                <li>Nutze relevante Hashtags</li>
-                                <li>Fuege einen Call-to-Action hinzu</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -259,6 +251,218 @@
         .platform-icon-svg.instagram { color: #E4405F; }
         .platform-icon-svg.youtube { color: #FF0000; }
         .platform-icon-svg.tiktok { color: #fff; }
+
+        /* Preview Tabs */
+        .preview-card {
+            padding: 0 !important;
+            overflow: hidden;
+        }
+        .preview-tabs {
+            display: flex;
+            border-bottom: 1px solid #27272a;
+            overflow-x: auto;
+        }
+        .preview-tab {
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: #71717a;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .preview-tab:hover {
+            color: #a1a1aa;
+        }
+        .preview-tab.active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+        .preview-tab svg {
+            width: 16px;
+            height: 16px;
+        }
+        #preview-container {
+            padding: 16px;
+        }
+
+        /* Platform-specific post mockups */
+        .post-mockup {
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* LinkedIn Mockup */
+        .linkedin-mockup {
+            background: #1b1f23;
+        }
+        .linkedin-mockup .post-header {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+        }
+        .linkedin-mockup .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #0A66C2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+        }
+        .linkedin-mockup .author-info .name {
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .linkedin-mockup .author-info .meta {
+            color: #71717a;
+            font-size: 12px;
+        }
+        .linkedin-mockup .post-text {
+            padding: 0 12px 12px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+        .linkedin-mockup .post-media {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        .linkedin-mockup .post-actions {
+            display: flex;
+            gap: 4px;
+            padding: 8px 12px;
+            border-top: 1px solid #38434f;
+        }
+        .linkedin-mockup .action-btn {
+            flex: 1;
+            padding: 8px;
+            color: #71717a;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Twitter/X Mockup */
+        .twitter-mockup {
+            background: #000;
+            border: 1px solid #2f3336;
+        }
+        .twitter-mockup .post-header {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+        }
+        .twitter-mockup .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1d9bf0;
+        }
+        .twitter-mockup .author-info {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .twitter-mockup .author-info .name {
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .twitter-mockup .author-info .handle {
+            color: #71767b;
+            font-size: 15px;
+        }
+        .twitter-mockup .post-text {
+            padding: 0 12px 12px;
+            color: #e7e9ea;
+            font-size: 15px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        .twitter-mockup .post-media {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin: 0 12px 12px;
+            width: calc(100% - 24px);
+        }
+        .twitter-mockup .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 4px 12px 12px;
+        }
+        .twitter-mockup .action-btn {
+            color: #71767b;
+            font-size: 13px;
+        }
+
+        /* Instagram Mockup */
+        .instagram-mockup {
+            background: #000;
+            border: 1px solid #262626;
+        }
+        .instagram-mockup .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+        }
+        .instagram-mockup .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        .instagram-mockup .author-info .name {
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .instagram-mockup .post-media {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: #262626;
+        }
+        .instagram-mockup .post-media.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #71717a;
+            font-size: 14px;
+        }
+        .instagram-mockup .post-actions {
+            display: flex;
+            gap: 16px;
+            padding: 14px;
+        }
+        .instagram-mockup .action-btn svg {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+        }
+        .instagram-mockup .post-text {
+            padding: 0 14px 14px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .instagram-mockup .post-text .username {
+            font-weight: 600;
+            margin-right: 6px;
+        }
     </style>
 
     <script>
@@ -329,11 +533,12 @@
             return names[platform] || platform;
         }
 
+        let activePreviewPlatform = null;
+
         function updatePreview() {
             const content = document.getElementById('content').value;
             const count = content.length;
             const charEl = document.getElementById('char-count');
-            const previewEl = document.getElementById('preview-container');
 
             charEl.textContent = count + ' / 280';
             charEl.className = 'character-count';
@@ -343,11 +548,166 @@
                 charEl.classList.add('warning');
             }
 
-            if (content.trim()) {
-                previewEl.innerHTML = `<div class="preview-content">${escapeHtml(content)}</div>`;
-            } else {
-                previewEl.innerHTML = '<p class="preview-placeholder">Starte mit dem Schreiben um eine Vorschau zu sehen.</p>';
+            renderPreviewTabs();
+            renderPlatformPreview();
+        }
+
+        function renderPreviewTabs() {
+            const tabsEl = document.getElementById('preview-tabs');
+            const selectedPlatforms = getSelectedPlatforms();
+
+            if (selectedPlatforms.length === 0) {
+                tabsEl.innerHTML = '';
+                activePreviewPlatform = null;
+                return;
             }
+
+            if (!activePreviewPlatform || !selectedPlatforms.find(p => p.platform === activePreviewPlatform)) {
+                activePreviewPlatform = selectedPlatforms[0].platform;
+            }
+
+            tabsEl.innerHTML = selectedPlatforms.map(p => `
+                <button type="button" class="preview-tab ${p.platform === activePreviewPlatform ? 'active' : ''}"
+                        onclick="setActivePreview('${p.platform}')">
+                    ${getSmallPlatformIcon(p.platform)}
+                    ${getPlatformName(p.platform)}
+                </button>
+            `).join('');
+        }
+
+        function setActivePreview(platform) {
+            activePreviewPlatform = platform;
+            renderPreviewTabs();
+            renderPlatformPreview();
+        }
+
+        function getSelectedPlatforms() {
+            const checkboxes = document.querySelectorAll('input[name="platforms"]:checked');
+            return Array.from(checkboxes).map(cb => {
+                const account = accounts.find(a => a.id == cb.value);
+                return account;
+            }).filter(Boolean);
+        }
+
+        function getMediaPreviewUrl() {
+            if (mediaFiles.length > 0) {
+                return URL.createObjectURL(mediaFiles[0]);
+            }
+            return null;
+        }
+
+        function renderPlatformPreview() {
+            const previewEl = document.getElementById('preview-container');
+            const content = document.getElementById('content').value.trim();
+            const selectedPlatforms = getSelectedPlatforms();
+
+            if (selectedPlatforms.length === 0 || !content) {
+                previewEl.innerHTML = '<p class="preview-placeholder">Waehle Plattformen und schreibe Text um eine Vorschau zu sehen.</p>';
+                return;
+            }
+
+            const account = selectedPlatforms.find(p => p.platform === activePreviewPlatform) || selectedPlatforms[0];
+            const mediaUrl = getMediaPreviewUrl();
+            const isVideo = mediaFiles.length > 0 && mediaFiles[0].type.startsWith('video/');
+
+            switch (account.platform) {
+                case 'linkedin':
+                    previewEl.innerHTML = renderLinkedInMockup(content, account, mediaUrl, isVideo);
+                    break;
+                case 'twitter':
+                    previewEl.innerHTML = renderTwitterMockup(content, account, mediaUrl, isVideo);
+                    break;
+                case 'instagram':
+                    previewEl.innerHTML = renderInstagramMockup(content, account, mediaUrl, isVideo);
+                    break;
+                default:
+                    previewEl.innerHTML = `<div class="preview-content">${escapeHtml(content)}</div>`;
+            }
+        }
+
+        function renderLinkedInMockup(content, account, mediaUrl, isVideo) {
+            const initials = (account.display_name || account.platform_username || 'U').substring(0, 2).toUpperCase();
+            return `
+                <div class="post-mockup linkedin-mockup">
+                    <div class="post-header">
+                        <div class="avatar">${initials}</div>
+                        <div class="author-info">
+                            <div class="name">${escapeHtml(account.display_name || account.platform_username)}</div>
+                            <div class="meta">Gerade eben</div>
+                        </div>
+                    </div>
+                    <div class="post-text">${escapeHtml(content)}</div>
+                    ${mediaUrl ? (isVideo
+                        ? `<video class="post-media" src="${mediaUrl}" controls></video>`
+                        : `<img class="post-media" src="${mediaUrl}" alt="">`)
+                        : ''}
+                    <div class="post-actions">
+                        <span class="action-btn">Gefaellt mir</span>
+                        <span class="action-btn">Kommentieren</span>
+                        <span class="action-btn">Teilen</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTwitterMockup(content, account, mediaUrl, isVideo) {
+            return `
+                <div class="post-mockup twitter-mockup">
+                    <div class="post-header">
+                        <div class="avatar"></div>
+                        <div class="author-info">
+                            <span class="name">${escapeHtml(account.display_name || account.platform_username)}</span>
+                            <span class="handle">@${escapeHtml(account.platform_username)}</span>
+                        </div>
+                    </div>
+                    <div class="post-text">${escapeHtml(content)}</div>
+                    ${mediaUrl ? (isVideo
+                        ? `<video class="post-media" src="${mediaUrl}" controls></video>`
+                        : `<img class="post-media" src="${mediaUrl}" alt="">`)
+                        : ''}
+                    <div class="post-actions">
+                        <span class="action-btn">Reply</span>
+                        <span class="action-btn">Repost</span>
+                        <span class="action-btn">Like</span>
+                        <span class="action-btn">Share</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderInstagramMockup(content, account, mediaUrl, isVideo) {
+            return `
+                <div class="post-mockup instagram-mockup">
+                    <div class="post-header">
+                        <div class="avatar"></div>
+                        <div class="author-info">
+                            <div class="name">${escapeHtml(account.platform_username)}</div>
+                        </div>
+                    </div>
+                    ${mediaUrl
+                        ? (isVideo
+                            ? `<video class="post-media" src="${mediaUrl}" controls></video>`
+                            : `<img class="post-media" src="${mediaUrl}" alt="">`)
+                        : `<div class="post-media placeholder">Bild oder Video hinzufuegen</div>`}
+                    <div class="post-actions">
+                        <span class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+                        <span class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+                        <span class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+                    </div>
+                    <div class="post-text"><span class="username">${escapeHtml(account.platform_username)}</span>${escapeHtml(content)}</div>
+                </div>
+            `;
+        }
+
+        function getSmallPlatformIcon(platform) {
+            const icons = {
+                linkedin: '<svg viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+                twitter: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+                instagram: '<svg viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
+                youtube: '<svg viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+                tiktok: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>'
+            };
+            return icons[platform] || '';
         }
 
         function escapeHtml(text) {
@@ -480,12 +840,20 @@
                     </div>
                 `;
             }).join('');
+            updatePreview(); // Update platform preview when media changes
         }
 
         function removeMedia(index) {
             mediaFiles.splice(index, 1);
             renderMediaPreview();
         }
+
+        // Update preview when platform selection changes
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'platforms') {
+                updatePreview();
+            }
+        });
 
         // Initialize
         loadAccounts();
