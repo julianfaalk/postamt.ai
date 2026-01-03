@@ -757,6 +757,96 @@ $router->get('/post/{id}', function ($params) {
 });
 
 // =====================================
+// AI Text Optimization API
+// =====================================
+
+$router->post('/api/ai/optimize', function () {
+    Auth::require();
+
+    if (empty(OPENAI_API_KEY)) {
+        http_response_code(500);
+        return ['error' => 'OpenAI API nicht konfiguriert'];
+    }
+
+    $input = json_decode(file_get_contents('php://input'), true);
+    $text = trim($input['text'] ?? '');
+    $platform = $input['platform'] ?? 'general';
+    $action = $input['action'] ?? 'improve'; // improve, shorter, longer, professional, casual, hooks
+
+    if (empty($text)) {
+        http_response_code(400);
+        return ['error' => 'Kein Text angegeben'];
+    }
+
+    if (strlen($text) > 5000) {
+        http_response_code(400);
+        return ['error' => 'Text zu lang (max 5000 Zeichen)'];
+    }
+
+    $platformHints = [
+        'linkedin' => 'LinkedIn (professional B2B network)',
+        'instagram' => 'Instagram (visual, casual, use emojis)',
+        'twitter' => 'Twitter/X (max 280 chars, punchy)',
+        'tiktok' => 'TikTok (Gen-Z friendly, trendy)',
+        'youtube' => 'YouTube (engaging, call-to-action)',
+    ];
+
+    $platformContext = $platformHints[$platform] ?? 'social media';
+
+    $actionPrompts = [
+        'improve' => "Verbessere diesen Social Media Post für {$platformContext}. Mach ihn ansprechender und wirkungsvoller, aber behalte die Kernaussage bei.",
+        'shorter' => "Kürze diesen Text deutlich, behalte aber die wichtigsten Punkte. Ziel: maximal 50% der ursprünglichen Länge.",
+        'longer' => "Erweitere diesen Text mit mehr Details, Kontext oder einem Call-to-Action. Mach ihn ausführlicher aber nicht langweilig.",
+        'professional' => "Schreibe diesen Text professioneller und formeller um, passend für ein Business-Publikum.",
+        'casual' => "Schreibe diesen Text lockerer und persönlicher um. Nutze eine freundliche, nahbare Sprache.",
+        'hooks' => "Füge einen starken Hook/Einstieg hinzu, der sofort Aufmerksamkeit erregt. Der erste Satz muss fesseln.",
+    ];
+
+    $systemPrompt = "Du bist ein Social Media Experte. Antworte NUR mit dem verbesserten Text, ohne Erklärungen oder Anführungszeichen. Behalte die Sprache des Originals bei (deutsch/englisch).";
+    $userPrompt = $actionPrompts[$action] ?? $actionPrompts['improve'];
+    $userPrompt .= "\n\nOriginal-Text:\n" . $text;
+
+    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . OPENAI_API_KEY,
+        ],
+        CURLOPT_POSTFIELDS => json_encode([
+            'model' => 'gpt-4o-mini',
+            'messages' => [
+                ['role' => 'system', 'content' => $systemPrompt],
+                ['role' => 'user', 'content' => $userPrompt],
+            ],
+            'max_tokens' => 1000,
+            'temperature' => 0.7,
+        ]),
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode !== 200) {
+        error_log('OpenAI API error: ' . $response);
+        http_response_code(500);
+        return ['error' => 'KI-Service temporär nicht verfügbar'];
+    }
+
+    $data = json_decode($response, true);
+    $optimizedText = trim($data['choices'][0]['message']['content'] ?? '');
+
+    if (empty($optimizedText)) {
+        http_response_code(500);
+        return ['error' => 'Keine Antwort von der KI erhalten'];
+    }
+
+    return ['text' => $optimizedText];
+});
+
+// =====================================
 // SEO Landing Pages
 // =====================================
 

@@ -57,3 +57,6 @@ define('GOOGLE_REDIRECT_URI', (getenv('BASE_URL') ?: 'http://localhost:8080') . 
 
 // Base URL
 define('BASE_URL', getenv('BASE_URL') ?: 'http://localhost:8080');
+
+// OpenAI API
+define('OPENAI_API_KEY', getenv('OPENAI_API_KEY') ?: '');

@@ -27,7 +27,60 @@
                             <div class="form-group">
                                 <label for="content">Dein Post</label>
                                 <textarea id="content" name="content" placeholder="Was moechtest du teilen?" oninput="updatePreview()"></textarea>
-                                <div class="character-count" id="char-count">0 / 280</div>
+                                <div class="textarea-footer">
+                                    <div class="character-count" id="char-count">0 / 280</div>
+                                    <div class="ai-tools">
+                                        <button type="button" class="ai-button" id="ai-btn" onclick="toggleAiMenu()">
+                                            <span class="ai-sparkle">✨</span>
+                                            <span>Mit KI optimieren</span>
+                                            <svg class="ai-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+                                        </button>
+                                        <div class="ai-menu" id="ai-menu">
+                                            <button type="button" onclick="optimizeWithAI('improve')">
+                                                <span class="ai-menu-icon">🚀</span>
+                                                <div>
+                                                    <strong>Verbessern</strong>
+                                                    <small>Ansprechender & wirkungsvoller</small>
+                                                </div>
+                                            </button>
+                                            <button type="button" onclick="optimizeWithAI('hooks')">
+                                                <span class="ai-menu-icon">🎣</span>
+                                                <div>
+                                                    <strong>Hook hinzufügen</strong>
+                                                    <small>Starker Einstieg der fesselt</small>
+                                                </div>
+                                            </button>
+                                            <button type="button" onclick="optimizeWithAI('shorter')">
+                                                <span class="ai-menu-icon">✂️</span>
+                                                <div>
+                                                    <strong>Kürzen</strong>
+                                                    <small>Auf das Wesentliche</small>
+                                                </div>
+                                            </button>
+                                            <button type="button" onclick="optimizeWithAI('longer')">
+                                                <span class="ai-menu-icon">📝</span>
+                                                <div>
+                                                    <strong>Erweitern</strong>
+                                                    <small>Mehr Details & Kontext</small>
+                                                </div>
+                                            </button>
+                                            <button type="button" onclick="optimizeWithAI('professional')">
+                                                <span class="ai-menu-icon">💼</span>
+                                                <div>
+                                                    <strong>Professioneller</strong>
+                                                    <small>Business-tauglich</small>
+                                                </div>
+                                            </button>
+                                            <button type="button" onclick="optimizeWithAI('casual')">
+                                                <span class="ai-menu-icon">😎</span>
+                                                <div>
+                                                    <strong>Lockerer</strong>
+                                                    <small>Persönlich & nahbar</small>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -289,6 +342,143 @@
         }
         #preview-container {
             padding: 16px;
+        }
+
+        /* AI Button Styles */
+        .textarea-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .ai-tools {
+            position: relative;
+        }
+        .ai-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 200%;
+            animation: aiGradient 3s ease infinite;
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+        .ai-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.6);
+        }
+        .ai-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .ai-sparkle {
+            font-size: 16px;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        .ai-chevron {
+            transition: transform 0.2s;
+        }
+        .ai-button.active .ai-chevron {
+            transform: rotate(180deg);
+        }
+        @keyframes aiGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.2) rotate(-10deg); }
+            75% { transform: scale(1.1) rotate(10deg); }
+        }
+        .ai-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 280px;
+            background: #1f1f23;
+            border: 1px solid #333;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .ai-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .ai-menu button {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .ai-menu button:hover {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        .ai-menu button:not(:last-child) {
+            border-bottom: 1px solid #2a2a2e;
+        }
+        .ai-menu-icon {
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #27272a;
+            border-radius: 8px;
+        }
+        .ai-menu button div {
+            flex: 1;
+        }
+        .ai-menu button strong {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .ai-menu button small {
+            display: block;
+            font-size: 12px;
+            color: #71717a;
+            margin-top: 2px;
+        }
+        .ai-loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ai-loading .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Platform-specific post mockups */
@@ -868,6 +1058,79 @@
                 updatePreview();
             }
         });
+
+        // AI Menu Functions
+        function toggleAiMenu() {
+            const menu = document.getElementById('ai-menu');
+            const btn = document.getElementById('ai-btn');
+            menu.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        // Close AI menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const aiTools = document.querySelector('.ai-tools');
+            if (aiTools && !aiTools.contains(e.target)) {
+                document.getElementById('ai-menu').classList.remove('show');
+                document.getElementById('ai-btn').classList.remove('active');
+            }
+        });
+
+        async function optimizeWithAI(action) {
+            const content = document.getElementById('content').value.trim();
+            const btn = document.getElementById('ai-btn');
+            const menu = document.getElementById('ai-menu');
+
+            if (!content) {
+                showMessage('Bitte schreibe erst einen Text', 'error');
+                menu.classList.remove('show');
+                btn.classList.remove('active');
+                return;
+            }
+
+            // Get selected platform for context
+            const selectedPlatforms = getSelectedPlatforms();
+            const platform = selectedPlatforms.length > 0 ? selectedPlatforms[0].platform : 'general';
+
+            // Close menu and show loading state
+            menu.classList.remove('show');
+            btn.classList.remove('active');
+            btn.disabled = true;
+            btn.innerHTML = `<span class="ai-loading"><span class="spinner"></span><span>KI denkt nach...</span></span>`;
+
+            try {
+                const response = await fetch('/api/ai/optimize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: content,
+                        platform: platform,
+                        action: action
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.text) {
+                    document.getElementById('content').value = data.text;
+                    updatePreview();
+                    showMessage('Text wurde optimiert!', 'success');
+                } else {
+                    showMessage(data.error || 'Optimierung fehlgeschlagen', 'error');
+                }
+            } catch (err) {
+                console.error('AI optimization error:', err);
+                showMessage('Verbindungsfehler', 'error');
+            }
+
+            // Reset button
+            btn.disabled = false;
+            btn.innerHTML = `
+                <span class="ai-sparkle">✨</span>
+                <span>Mit KI optimieren</span>
+                <svg class="ai-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+            `;
+        }
 
         // Initialize
         loadAccounts();
