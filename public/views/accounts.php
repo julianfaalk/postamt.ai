@@ -251,8 +251,22 @@
             background: #1f1f23;
         }
         .connect-card.disabled {
-            opacity: 0.5;
+            background: #a1a1aa;
+            border-color: #a1a1aa;
             cursor: not-allowed;
+        }
+        .connect-card.disabled .connect-info h3 {
+            color: #27272a;
+        }
+        .connect-card.disabled .connect-btn {
+            background: #71717a;
+            color: #27272a;
+        }
+        .connect-card.disabled .connect-icon {
+            background: #71717a;
+        }
+        .connect-card.disabled .connect-icon svg {
+            fill: #27272a !important;
         }
         .connect-card .connect-icon {
             width: 48px;
