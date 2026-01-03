@@ -607,6 +607,12 @@
                 display: block;
             }
 
+            #pricing .section-label,
+            #pricing h2,
+            #pricing > p {
+                text-align: center;
+            }
+
             h1 {
                 font-size: 32px;
             }
