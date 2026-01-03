@@ -10,49 +10,7 @@
 </head>
 <body class="app-page">
     <div class="app-layout">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <a href="/dashboard" class="logo">Postamt</a>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="/dashboard" class="nav-item active">
-                    <span class="nav-icon">&#127968;</span>
-                    Dashboard
-                </a>
-                <a href="/compose" class="nav-item">
-                    <span class="nav-icon">&#9998;</span>
-                    Neuer Post
-                </a>
-                <a href="/calendar" class="nav-item">
-                    <span class="nav-icon">&#128197;</span>
-                    Kalender
-                </a>
-                <a href="/accounts" class="nav-item">
-                    <span class="nav-icon">&#128101;</span>
-                    Accounts
-                </a>
-                <a href="/analytics" class="nav-item">
-                    <span class="nav-icon">&#128200;</span>
-                    Analytics
-                </a>
-                <a href="/templates" class="nav-item">
-                    <span class="nav-icon">&#128196;</span>
-                    Templates
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <a href="/settings" class="nav-item">
-                    <span class="nav-icon">&#9881;</span>
-                    Einstellungen
-                </a>
-                <button class="nav-item" onclick="logout()">
-                    <span class="nav-icon">&#128682;</span>
-                    Abmelden
-                </button>
-            </div>
-        </aside>
+        <?php include __DIR__ . '/_sidebar.php'; ?>
 
         <main class="main-content">
             <header class="page-header">
@@ -133,11 +91,6 @@
     </div>
 
     <script>
-        async function logout() {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.href = '/';
-        }
-
         // Load dashboard data
         async function loadDashboardData() {
             try {
