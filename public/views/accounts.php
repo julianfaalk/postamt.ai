@@ -252,15 +252,13 @@
         }
         .connect-card.disabled {
             cursor: not-allowed;
-            filter: blur(1px) grayscale(30%);
-            opacity: 0.6;
             position: relative;
         }
         .connect-card.disabled::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(128, 128, 128, 0.3);
             border-radius: 12px;
             pointer-events: none;
         }
