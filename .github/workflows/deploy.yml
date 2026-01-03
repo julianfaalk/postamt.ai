@@ -6,7 +6,15 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Trigger deploy
-        run: curl -s https://postamt.julianfalk.dev/deploy.php
+      - name: Pull latest code
+        working-directory: /opt/apps/postamt.ai
+        run: git pull origin main
+
+      - name: Rebuild and restart container
+        working-directory: /opt/apps/postamt.ai
+        run: docker compose up -d --build --force-recreate
+
+      - name: Clean up old images
+        run: docker image prune -f
