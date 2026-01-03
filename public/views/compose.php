@@ -523,6 +523,9 @@
             font-size: 14px;
             line-height: 1.5;
             white-space: pre-wrap;
+            display: block;
+            -webkit-line-clamp: unset;
+            overflow: visible;
         }
         .linkedin-mockup .post-media {
             width: 100%;
@@ -579,6 +582,9 @@
             font-size: 15px;
             line-height: 1.4;
             white-space: pre-wrap;
+            display: block;
+            -webkit-line-clamp: unset;
+            overflow: visible;
         }
         .twitter-mockup .post-media {
             width: 100%;
@@ -648,6 +654,10 @@
             color: #fff;
             font-size: 14px;
             line-height: 1.4;
+            display: block;
+            -webkit-line-clamp: unset;
+            overflow: visible;
+            white-space: pre-wrap;
         }
         .instagram-mockup .post-text .username {
             font-weight: 600;
