@@ -46,7 +46,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>LinkedIn</h3>
-                            <p>Professional Content</p>
+                            <!-- <p>Professional Content</p> -->
                         </div>
                         <span class="connect-btn">Verbinden</span>
                     </a>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>Instagram</h3>
-                            <p>Posts, Stories und Reels</p>
+                            <!-- <p>Posts, Stories und Reels</p> -->
                         </div>
                         <span class="connect-btn">Verbinden</span>
                     </a>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>TikTok</h3>
-                            <p>Videos posten</p>
+                            <!-- <p>Videos posten</p> -->
                         </div>
                         <span class="connect-btn">Verbinden</span>
                     </a>
@@ -79,7 +79,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>YouTube</h3>
-                            <p>Videos und Shorts</p>
+                            <!-- <p>Videos und Shorts</p> -->
                         </div>
                         <span class="connect-btn">Verbinden</span>
                     </a>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>X / Twitter</h3>
-                            <p>Tweets und Threads</p>
+                            <!-- <p>Tweets und Threads</p> -->
                         </div>
                         <span class="connect-btn">Bald</span>
                     </div>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>Bluesky</h3>
-                            <p>Posts und Threads</p>
+                            <!-- <p>Posts und Threads</p> -->
                         </div>
                         <span class="connect-btn">Bald</span>
                     </div>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>Snapchat</h3>
-                            <p>Stories und Snaps</p>
+                            <!-- <p>Stories und Snaps</p> -->
                         </div>
                         <span class="connect-btn">Bald</span>
                     </div>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>WhatsApp</h3>
-                            <p>Status Updates</p>
+                            <!-- <p>Status Updates</p> -->
                         </div>
                         <span class="connect-btn">Bald</span>
                     </div>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="connect-info">
                             <h3>Telegram</h3>
-                            <p>Channel Posts</p>
+                            <!-- <p>Channel Posts</p> -->
                         </div>
                         <span class="connect-btn">Bald</span>
                     </div>
