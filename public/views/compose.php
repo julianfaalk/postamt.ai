@@ -627,10 +627,13 @@
 
         function renderLinkedInMockup(content, account, mediaUrl, isVideo) {
             const initials = (account.display_name || account.platform_username || 'U').substring(0, 2).toUpperCase();
+            const avatarHtml = account.avatar_url
+                ? `<img src="${escapeHtml(account.avatar_url)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+                : initials;
             return `
                 <div class="post-mockup linkedin-mockup">
                     <div class="post-header">
-                        <div class="avatar">${initials}</div>
+                        <div class="avatar">${avatarHtml}</div>
                         <div class="author-info">
                             <div class="name">${escapeHtml(account.display_name || account.platform_username)}</div>
                             <div class="meta">Gerade eben</div>
@@ -651,10 +654,13 @@
         }
 
         function renderTwitterMockup(content, account, mediaUrl, isVideo) {
+            const avatarStyle = account.avatar_url
+                ? `background-image:url('${escapeHtml(account.avatar_url)}');background-size:cover;background-position:center;`
+                : '';
             return `
                 <div class="post-mockup twitter-mockup">
                     <div class="post-header">
-                        <div class="avatar"></div>
+                        <div class="avatar" style="${avatarStyle}"></div>
                         <div class="author-info">
                             <span class="name">${escapeHtml(account.display_name || account.platform_username)}</span>
                             <span class="handle">@${escapeHtml(account.platform_username)}</span>
@@ -676,10 +682,13 @@
         }
 
         function renderInstagramMockup(content, account, mediaUrl, isVideo) {
+            const avatarStyle = account.avatar_url
+                ? `background-image:url('${escapeHtml(account.avatar_url)}');background-size:cover;background-position:center;`
+                : '';
             return `
                 <div class="post-mockup instagram-mockup">
                     <div class="post-header">
-                        <div class="avatar"></div>
+                        <div class="avatar" style="${avatarStyle}"></div>
                         <div class="author-info">
                             <div class="name">${escapeHtml(account.platform_username)}</div>
                         </div>

@@ -58,9 +58,11 @@ class LinkedInOAuth
         );
 
         if ($existing) {
-            // Update existing account
+            // Update existing account (including avatar in case it changed)
             Database::update('accounts', [
                 'access_token' => $tokens['access_token'],
+                'avatar_url' => $userInfo['picture'] ?? null,
+                'display_name' => $userInfo['name'] ?? null,
                 'token_expires_at' => isset($tokens['expires_in'])
                     ? date('Y-m-d H:i:s', time() + $tokens['expires_in'])
                     : null,
