@@ -524,8 +524,13 @@
                 font-size: 32px;
             }
 
+            .hero {
+                padding: 60px 0 40px;
+            }
+
             .hero p {
                 font-size: 16px;
+                padding: 0 10px;
             }
 
             .email-input {
@@ -542,17 +547,22 @@
             }
 
             .platforms-row {
-                gap: 12px;
+                height: 40px;
+                max-width: 340px;
             }
 
             .platform-icon {
-                width: 28px;
-                height: 28px;
+                width: 26px;
+                height: 26px;
             }
 
             .platform-icon svg {
-                width: 24px;
-                height: 24px;
+                width: 22px;
+                height: 22px;
+            }
+
+            .platform-icon::after {
+                display: none;
             }
 
             .features {
@@ -571,20 +581,84 @@
             .final-cta {
                 margin: 0;
                 border-radius: 0;
+                padding: 40px 20px;
+            }
+
+            .final-cta h2 {
+                font-size: 24px;
+            }
+
+            .pricing-card {
+                margin: 0 -8px;
+                padding: 24px 20px;
+            }
+
+            .price .amount {
+                font-size: 36px;
             }
         }
 
         @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .hero {
+                padding: 40px 0 30px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            section h2 {
+                font-size: 22px;
+            }
+
             .steps {
                 grid-template-columns: 1fr;
             }
 
-            h1 {
-                font-size: 28px;
+            .platforms-row {
+                height: 35px;
+                max-width: 280px;
             }
 
-            section h2 {
-                font-size: 24px;
+            .platform-icon {
+                width: 22px;
+                height: 22px;
+            }
+
+            .platform-icon svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .hero-emoji {
+                font-size: 48px;
+            }
+
+            .badge {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+
+            .feature {
+                padding: 18px;
+            }
+
+            .feature h3 {
+                font-size: 16px;
+            }
+
+            .feature p {
+                font-size: 13px;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                bottom: 16px;
             }
         }
     </style>

@@ -682,6 +682,80 @@
             font-weight: 600;
             margin-right: 6px;
         }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .compose-main {
+                display: flex;
+                flex-direction: column;
+            }
+            .compose-sidebar {
+                order: 2;
+            }
+            .platform-checkbox {
+                padding: 10px 12px;
+            }
+            .platform-icon {
+                width: 28px;
+                height: 28px;
+            }
+            .platform-checkbox .platform-name {
+                font-size: 14px;
+            }
+            .platform-checkbox .platform-username {
+                font-size: 12px;
+            }
+            .media-item {
+                width: 60px;
+                height: 60px;
+            }
+            .preview-tabs {
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            .preview-tab {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+            .textarea-footer {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+            .ai-button {
+                width: 100%;
+                justify-content: center;
+            }
+            .ai-menu {
+                width: 100%;
+                right: 0;
+                left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-group label {
+                font-size: 13px;
+            }
+            .compose-editor {
+                padding: 14px;
+            }
+            #preview-container {
+                padding: 12px;
+            }
+            .ai-button {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            .ai-menu button {
+                padding: 10px 14px;
+            }
+            .ai-menu-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 16px;
+            }
+        }
     </style>
 
     <script>

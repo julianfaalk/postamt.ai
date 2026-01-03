@@ -362,6 +362,79 @@
         .connect-card:not(.disabled):hover .connect-btn {
             background: #3f3f46;
         }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .accounts-section {
+                margin-bottom: 32px;
+            }
+            .accounts-section h2 {
+                font-size: 16px;
+            }
+            .connect-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .connect-card {
+                padding: 16px;
+            }
+            .connect-card .connect-icon {
+                width: 40px;
+                height: 40px;
+            }
+            .connect-card .connect-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+            .connect-card .connect-info h3 {
+                font-size: 14px;
+            }
+            .connect-card .connect-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            .connected-account {
+                padding: 14px;
+                gap: 12px;
+            }
+            .connected-account .account-icon {
+                width: 40px;
+                height: 40px;
+            }
+            .connected-account .account-name {
+                font-size: 14px;
+            }
+            .disconnect-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .connect-card {
+                flex-wrap: wrap;
+            }
+            .connect-card .connect-info {
+                flex: 1;
+                min-width: 0;
+            }
+            .connect-card .connect-btn {
+                width: 100%;
+                text-align: center;
+                margin-top: 8px;
+            }
+            .connected-account {
+                flex-wrap: wrap;
+            }
+            .connected-account .account-info {
+                flex: 1;
+                min-width: 0;
+            }
+            .disconnect-btn {
+                width: 100%;
+                margin-top: 8px;
+            }
+        }
     </style>
 
     <script>

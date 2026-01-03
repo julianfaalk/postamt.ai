@@ -1,3 +1,15 @@
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+</button>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" onclick="toggleMobileMenu()"></div>
+
 <aside class="sidebar">
     <div class="sidebar-header">
         <a href="/dashboard" class="logo">Postamt</a>
@@ -53,6 +65,23 @@ async function handleLogout() {
 if (typeof logout === 'undefined') {
     window.logout = handleLogout;
 }
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+// Close mobile menu when clicking a nav item
+document.querySelectorAll('.sidebar .nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            toggleMobileMenu();
+        }
+    });
+});
 </script>
 
 <style>

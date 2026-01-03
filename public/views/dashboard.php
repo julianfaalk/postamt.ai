@@ -215,6 +215,21 @@
         .status-published { background: #052e16; color: #4ade80; }
         .status-failed { background: #450a0a; color: #f87171; }
         .status-partial { background: #431407; color: #fb923c; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .post-item {
+                padding: 14px;
+            }
+            .post-content {
+                font-size: 14px;
+            }
+            .post-meta {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+            }
+        }
     </style>
 
     <!-- 100% privacy-first analytics -->
