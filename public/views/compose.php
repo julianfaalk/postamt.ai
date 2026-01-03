@@ -31,8 +31,11 @@
                                     <div class="character-count" id="char-count">0 / 280</div>
                                     <div class="ai-tools">
                                         <button type="button" class="ai-button" id="ai-btn" onclick="toggleAiMenu()">
-                                            <span class="ai-sparkle">✨</span>
-                                            <span>Mit KI optimieren</span>
+                                            <svg class="ai-sparkle" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                                <path d="M12 0L13.5 8.5L22 10L13.5 11.5L12 20L10.5 11.5L2 10L10.5 8.5L12 0Z"/>
+                                                <path d="M5 2L5.75 5.25L9 6L5.75 6.75L5 10L4.25 6.75L1 6L4.25 5.25L5 2Z" transform="translate(14, 12) scale(0.5)"/>
+                                            </svg>
+                                            <span>Mit KI schreiben</span>
                                             <svg class="ai-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
                                         </button>
                                         <div class="ai-menu" id="ai-menu">
@@ -355,25 +358,41 @@
             position: relative;
         }
         .ai-button {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
+            gap: 10px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 8px;
-            font-size: 13px;
+            border-radius: 50px;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            background-size: 200% 200%;
-            animation: aiGradient 3s ease infinite;
+            background: #0d0d14;
             color: #fff;
-            box-shadow: 0 2px 12px rgba(102, 126, 234, 0.4);
             transition: all 0.3s ease;
+            z-index: 1;
+        }
+        .ai-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            padding: 2px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed, #f472b6, #fb923c);
+            background-size: 300% 100%;
+            animation: borderGradient 4s linear infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
         }
         .ai-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
+        }
+        .ai-button:hover::before {
+            animation: borderGradient 2s linear infinite;
         }
         .ai-button:disabled {
             opacity: 0.7;
@@ -381,24 +400,24 @@
             transform: none;
         }
         .ai-sparkle {
-            font-size: 16px;
-            animation: sparkle 2s ease-in-out infinite;
+            width: 18px;
+            height: 18px;
+            animation: sparkle 3s ease-in-out infinite;
         }
         .ai-chevron {
             transition: transform 0.2s;
+            opacity: 0.7;
         }
         .ai-button.active .ai-chevron {
             transform: rotate(180deg);
         }
-        @keyframes aiGradient {
+        @keyframes borderGradient {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
         }
         @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.2) rotate(-10deg); }
-            75% { transform: scale(1.1) rotate(10deg); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
         }
         .ai-menu {
             position: absolute;
@@ -1136,8 +1155,11 @@
             // Reset button
             btn.disabled = false;
             btn.innerHTML = `
-                <span class="ai-sparkle">✨</span>
-                <span>Mit KI optimieren</span>
+                <svg class="ai-sparkle" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                    <path d="M12 0L13.5 8.5L22 10L13.5 11.5L12 20L10.5 11.5L2 10L10.5 8.5L12 0Z"/>
+                    <path d="M5 2L5.75 5.25L9 6L5.75 6.75L5 10L4.25 6.75L1 6L4.25 5.25L5 2Z" transform="translate(14, 12) scale(0.5)"/>
+                </svg>
+                <span>Mit KI schreiben</span>
                 <svg class="ai-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
             `;
         }
