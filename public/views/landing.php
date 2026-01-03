@@ -1,3 +1,4 @@
+<?php $user = Auth::user(); ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -800,9 +801,15 @@
         <div class="container">
             <a href="/" class="logo"><span class="logo-emoji">🏤</span> Postamt.ai</a>
             <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#pricing">Preise</a>
-                <a href="/login">Login</a>
+                <?php if ($user): ?>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/compose">Neuer Post</a>
+                    <a href="/accounts">Accounts</a>
+                <?php else: ?>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Preise</a>
+                    <a href="/login">Login</a>
+                <?php endif; ?>
             </div>
             <button class="mobile-menu-btn" onclick="openMobileMenu()">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -826,10 +833,19 @@
             </button>
         </div>
         <div class="mobile-nav-links">
-            <a href="#features" onclick="closeMobileMenu()">Features</a>
-            <a href="#pricing" onclick="closeMobileMenu()">Preise</a>
-            <a href="/login" class="btn-login">Login</a>
-            <a href="/register" class="btn-login" style="background: #fff; color: #111; border: 1px solid #ddd;">Registrieren</a>
+            <?php if ($user): ?>
+                <a href="/dashboard" onclick="closeMobileMenu()">Dashboard</a>
+                <a href="/compose" onclick="closeMobileMenu()">Neuer Post</a>
+                <a href="/calendar" onclick="closeMobileMenu()">Kalender</a>
+                <a href="/accounts" onclick="closeMobileMenu()">Accounts</a>
+                <a href="/settings" onclick="closeMobileMenu()">Einstellungen</a>
+                <a href="#" class="btn-login" style="background: #fff; color: #111; border: 1px solid #ddd;" onclick="handleLogout()">Abmelden</a>
+            <?php else: ?>
+                <a href="#features" onclick="closeMobileMenu()">Features</a>
+                <a href="#pricing" onclick="closeMobileMenu()">Preise</a>
+                <a href="/login" class="btn-login">Login</a>
+                <a href="/register" class="btn-login" style="background: #fff; color: #111; border: 1px solid #ddd;">Registrieren</a>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -1096,6 +1112,14 @@
         function closeMobileMenu() {
             document.getElementById('mobile-nav').classList.remove('open');
             document.body.style.overflow = '';
+        }
+
+        // Logout function
+        async function handleLogout() {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+            } catch (e) {}
+            window.location.href = '/';
         }
 
         // Smooth fly-in animation for social icons
