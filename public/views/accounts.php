@@ -151,7 +151,7 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 16px;
-            color: #fff;
+            color: #1f2937;
         }
         .alert {
             padding: 12px 16px;
@@ -251,22 +251,21 @@
             background: #1f1f23;
         }
         .connect-card.disabled {
-            background: #a1a1aa;
-            border-color: #a1a1aa;
             cursor: not-allowed;
+            filter: blur(1px) grayscale(30%);
+            opacity: 0.6;
+            position: relative;
         }
-        .connect-card.disabled .connect-info h3 {
-            color: #27272a;
+        .connect-card.disabled::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            pointer-events: none;
         }
         .connect-card.disabled .connect-btn {
-            background: #71717a;
-            color: #27272a;
-        }
-        .connect-card.disabled .connect-icon {
-            background: #71717a;
-        }
-        .connect-card.disabled .connect-icon svg {
-            fill: #27272a !important;
+            background: #3f3f46;
         }
         .connect-card .connect-icon {
             width: 48px;
