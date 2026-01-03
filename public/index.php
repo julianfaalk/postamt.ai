@@ -676,6 +676,14 @@ $router->get('/', function () {
     include __DIR__ . '/views/landing.php';
 });
 
+$router->get('/terms', function () {
+    include __DIR__ . '/views/terms.php';
+});
+
+$router->get('/privacy', function () {
+    include __DIR__ . '/views/privacy.php';
+});
+
 $router->get('/login', function () {
     if (Auth::check()) {
         header('Location: /dashboard');
